@@ -14,7 +14,7 @@ public final class VideoUtils {
             throw new NullPointerException("Empty input");
         }
         String[] parts = videoLength.split(":");
-        if (parts.length != 2 || parts[0].length() != 2 || parts[1].length() != 2) {
+        if (parts.length != 2 || parts[1].length() != 2) {
             return -1;
         }
         try {

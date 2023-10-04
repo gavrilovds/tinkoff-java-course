@@ -15,8 +15,8 @@ public class VideoUtilsTest {
         "34:43:23, -1",
         "aa:23, -1",
         "23:aa, -1",
-        "1:01, -1",
         "01:1, -1",
+        "999:59, 59999",
         "13:56, 836"
     })
     @DisplayName("Тестирование minuteToSeconds")
