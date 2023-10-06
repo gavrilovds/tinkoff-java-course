@@ -43,7 +43,7 @@ public class ArraysUtilsTest {
         {
             boolean actual = ArraysUtils.isNested(testArray1, testArray2);
 
-        }).isInstanceOf(NullPointerException.class);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
     @ParameterizedTest
     @NullAndEmptySource
@@ -53,7 +53,6 @@ public class ArraysUtilsTest {
         assertThatThrownBy(() ->
         {
             boolean actual = ArraysUtils.isNested(testArray1, testArray2);
-
-        }).isInstanceOf(NullPointerException.class);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 }

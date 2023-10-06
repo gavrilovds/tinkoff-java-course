@@ -31,7 +31,7 @@ public class VideoUtilsTest {
     public void testTime_shouldThrowException_whenInputIsNullOrEmpty(String testString) {
         assertThatThrownBy(() -> {
             int actual = VideoUtils.minuteToSeconds(testString);
-        }).isInstanceOf(NullPointerException.class);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
 }

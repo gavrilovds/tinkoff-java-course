@@ -15,11 +15,11 @@ public final class ChessUtils {
 
     public static boolean knightBoardCapture(int[][] board) {
         if (board == null || board.length != ROWS) {
-            throw new ArrayIndexOutOfBoundsException(MESSAGE);
+            throw new IllegalArgumentException(MESSAGE);
         }
         for (int i = 0; i < ROWS; i++) {
             if (board[i].length != COLUMNS) {
-                throw new ArrayIndexOutOfBoundsException(MESSAGE);
+                throw new IllegalArgumentException(MESSAGE);
             }
         }
         for (int i = 0; i < ROWS; i++) {

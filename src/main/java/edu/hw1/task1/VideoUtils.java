@@ -1,17 +1,15 @@
 package edu.hw1.task1;
 
-
-
 public final class VideoUtils {
 
-    private final static int SECONDS_IN_MINUTE = 60;
+    private static final int SECONDS_IN_MINUTE = 60;
 
     private VideoUtils() {
     }
 
-    public static int minuteToSeconds(String videoLength) throws NullPointerException {
+    public static int minuteToSeconds(String videoLength) {
         if (videoLength == null || videoLength.isEmpty()) {
-            throw new NullPointerException("Empty input");
+            throw new IllegalArgumentException("Empty input");
         }
         String[] parts = videoLength.split(":");
         if (parts.length != 2 || parts[1].length() != 2) {

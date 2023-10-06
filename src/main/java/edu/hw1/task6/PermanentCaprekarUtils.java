@@ -6,10 +6,10 @@ import org.apache.logging.log4j.Logger;
 
 
 public final class PermanentCaprekarUtils {
-    private final static Logger LOGGER = LogManager.getLogger();
-    private final static int LOWER_BOUND = 1000;
-    private final static int UPPER_BOUND = 9999;
-    private final static int CARPERKAR_CONST = 6174;
+    private static final Logger LOGGER = LogManager.getLogger();
+    private static final int LOWER_BOUND = 1000;
+    private static final int UPPER_BOUND = 9999;
+    private static final int CARPERKAR_CONST = 6174;
 
     private PermanentCaprekarUtils() {
     }

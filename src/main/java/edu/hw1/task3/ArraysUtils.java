@@ -7,15 +7,15 @@ public final class ArraysUtils {
     private ArraysUtils() {
     }
 
-    public static boolean isNested(int[] array1, int[] array2) {
-        if (array1 == null || array2 == null || array1.length == 0 || array2.length == 0) {
-            throw new NullPointerException("Empty input");
+    public static boolean isNested(int[] internal, int[] external) {
+        if (internal == null || external == null || internal.length == 0 || external.length == 0) {
+            throw new IllegalArgumentException("Empty input");
         }
-        int array1Min = Arrays.stream(array1).min().getAsInt();
-        int array1Max = Arrays.stream(array1).max().getAsInt();
-        int array2Min = Arrays.stream(array2).min().getAsInt();
-        int array2Max = Arrays.stream(array2).max().getAsInt();
-        return array1Max < array2Max && array1Min > array2Min;
+        int internalMin = Arrays.stream(internal).min().getAsInt();
+        int internalMax = Arrays.stream(internal).max().getAsInt();
+        int externalMin = Arrays.stream(external).min().getAsInt();
+        int externalMax = Arrays.stream(external).max().getAsInt();
+        return internalMax < externalMax && internalMin > externalMin;
     }
 
 }

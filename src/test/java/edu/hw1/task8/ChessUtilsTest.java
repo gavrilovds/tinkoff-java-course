@@ -60,7 +60,7 @@ public class ChessUtilsTest {
 
         assertThatThrownBy(() -> {
             boolean actual = ChessUtils.knightBoardCapture(testBoard);
-        }).isInstanceOf(IndexOutOfBoundsException.class);
+        }).isInstanceOf(IllegalArgumentException.class);
 
     }
 
@@ -80,7 +80,7 @@ public class ChessUtilsTest {
 
         assertThatThrownBy(() -> {
             boolean actual = ChessUtils.knightBoardCapture(testBoard);
-        }).isInstanceOf(IndexOutOfBoundsException.class);
+        }).isInstanceOf(IllegalArgumentException.class);
 
     }
 }
