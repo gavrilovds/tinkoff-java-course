@@ -58,9 +58,7 @@ public class ChessUtilsTest {
             {1, 0, 0, 0, 1, 0, 1, 0},
         };
 
-        assertThatThrownBy(() -> {
-            boolean actual = ChessUtils.knightBoardCapture(testBoard);
-        }).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> ChessUtils.knightBoardCapture(testBoard)).isInstanceOf(IllegalArgumentException.class);
 
     }
 
@@ -78,9 +76,7 @@ public class ChessUtilsTest {
             {0, 0, 0, 1, 0, 1, 0, 1}
         };
 
-        assertThatThrownBy(() -> {
-            boolean actual = ChessUtils.knightBoardCapture(testBoard);
-        }).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> ChessUtils.knightBoardCapture(testBoard)).isInstanceOf(IllegalArgumentException.class);
 
     }
 }

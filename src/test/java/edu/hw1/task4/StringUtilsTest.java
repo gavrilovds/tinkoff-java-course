@@ -23,7 +23,7 @@ public class StringUtilsTest {
     @ParameterizedTest
     @NullAndEmptySource
     @DisplayName("Тестирование fixString на пустых входных данных")
-    public void string_ShouldReturnEmptyString(String testString){
+    public void string_ShouldReturnEmptyString(String testString) {
         String actual = StringUtils.fixString(testString);
         assertThat(actual).isEqualTo("");
     }

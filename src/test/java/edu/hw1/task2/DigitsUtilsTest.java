@@ -1,14 +1,12 @@
 package edu.hw1.task2;
 
-import edu.hw1.task2.DigitsUtils;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DigitsUtilsTest {
+
     @ParameterizedTest
     @CsvSource({
         "4666, 4",

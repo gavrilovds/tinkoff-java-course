@@ -15,11 +15,36 @@ public class PalindromeUtilsTest {
         "11,true",
         "1,false",
         "238236,false",
-        "-11211230, false"
+        "-11211230, true"
     })
     @DisplayName("Тестирование isPalindromeDescendant")
     public void number_shouldReturnTrue_whenSelfOrDescendantIsPalindrome(int testNumber, boolean expected) {
         boolean actual = PalindromeUtils.isPalindromeDescendant(testNumber);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "123, 321",
+        "444, 444",
+        "8374, 4738"
+    })
+    @DisplayName("Тестирование getReversedNumber")
+    public void number_shouldReturnReversedNumber(int testNumber, int expected) {
+        int actual = PalindromeUtils.getReversedNumber(testNumber);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "4321, 37",
+        "11, 2",
+        "321, 33",
+        "7634, 713"
+    })
+    @DisplayName("Тестирование getNextNumber")
+    public void number_shouldReturnNextNumberWhereTwoAdjacentDigitsAreAddedTogether(int testNumber, int expected) {
+        int actual = PalindromeUtils.getNextNumber(testNumber);
         assertThat(actual).isEqualTo(expected);
     }
 }

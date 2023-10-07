@@ -1,6 +1,7 @@
 package edu.hw1.task8;
 
 public class Pair<T, U> {
+
     private T first;
     private U second;
 

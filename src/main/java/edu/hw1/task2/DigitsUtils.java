@@ -1,6 +1,9 @@
 package edu.hw1.task2;
 
 public final class DigitsUtils {
+
+    public static final int STEP = 10;
+
     private DigitsUtils() {
     }
 
@@ -11,11 +14,10 @@ public final class DigitsUtils {
 
         int digitsCounter = 0;
         int tmp = Math.abs(number);
-        final int step = 10;
 
         while (tmp > 0) {
             digitsCounter++;
-            tmp /= step;
+            tmp /= STEP;
         }
 
         return digitsCounter;

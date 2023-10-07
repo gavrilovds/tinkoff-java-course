@@ -5,7 +5,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class VideoUtilsTest {
 
@@ -28,10 +27,9 @@ public class VideoUtilsTest {
     @ParameterizedTest
     @NullAndEmptySource
     @DisplayName("Тестирование minuteToSeconds на пустых входных данных")
-    public void testTime_shouldThrowException_whenInputIsNullOrEmpty(String testString) {
-        assertThatThrownBy(() -> {
-            int actual = VideoUtils.minuteToSeconds(testString);
-        }).isInstanceOf(IllegalArgumentException.class);
+    public void testTime_shouldReturnMinusOne_whenInputIsNullOrEmpty(String testString) {
+        int actual = VideoUtils.minuteToSeconds(testString);
+        assertThat(actual).isEqualTo(-1);
     }
 
 }
