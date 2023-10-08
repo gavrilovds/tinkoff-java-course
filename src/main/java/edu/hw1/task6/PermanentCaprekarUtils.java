@@ -7,8 +7,8 @@ public final class PermanentCaprekarUtils {
     private static final int LOWER_BOUND = 1000;
     private static final int UPPER_BOUND = 9999;
     private static final int CARPERKAR_CONST = 6174;
-    public static final int BASE = 10;
-    public static final int MAX_SIZE = 4;
+    private static final int BASE = 10;
+    private static final int MAX_SIZE = 4;
 
     private PermanentCaprekarUtils() {
     }

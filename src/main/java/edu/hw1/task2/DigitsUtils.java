@@ -2,7 +2,7 @@ package edu.hw1.task2;
 
 public final class DigitsUtils {
 
-    public static final int STEP = 10;
+    private static final int STEP = 10;
 
     private DigitsUtils() {
     }

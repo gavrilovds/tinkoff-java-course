@@ -11,8 +11,9 @@ public final class VideoUtils {
         if (videoLength == null || !videoLength.matches("(\\d{2,}):([0-5]\\d)")) {
             return -1;
         }
-        int minutes = Integer.parseInt(videoLength.split(":")[0]);
-        int seconds = Integer.parseInt(videoLength.split(":")[1]);
+        var splittedString = videoLength.split(":");
+        int minutes = Integer.parseInt(splittedString[0]);
+        int seconds = Integer.parseInt(splittedString[1]);
         return minutes * SECONDS_IN_MINUTE + seconds;
     }
 

@@ -2,7 +2,7 @@ package edu.hw1.task5;
 
 public final class PalindromeUtils {
 
-    public static final int BASE = 10;
+    private static final int BASE = 10;
 
     private PalindromeUtils() {
     }
