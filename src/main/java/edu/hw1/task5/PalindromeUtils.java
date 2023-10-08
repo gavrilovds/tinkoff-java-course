@@ -16,8 +16,8 @@ public final class PalindromeUtils {
         if (original == reversed) {
             return true;
         }
-        int nextNumber = getNextNumber(reversed);
-        return isPalindromeDescendant(nextNumber);
+        int descendantNumber = getDescendantNumber(reversed);
+        return isPalindromeDescendant(descendantNumber);
     }
 
     public static int getReversedNumber(int originNumber) {
@@ -31,7 +31,7 @@ public final class PalindromeUtils {
         return reversed;
     }
 
-    public static int getNextNumber(int originNumber) {
+    public static int getDescendantNumber(int originNumber) {
         int tempNumber = originNumber;
         int nextNumber = 0;
         int degree = 1;

@@ -42,9 +42,9 @@ public class PalindromeUtilsTest {
         "321, 33",
         "7634, 713"
     })
-    @DisplayName("Тестирование getNextNumber")
+    @DisplayName("Тестирование getDescendantNumber")
     public void number_shouldReturnNextNumberWhereTwoAdjacentDigitsAreAddedTogether(int testNumber, int expected) {
-        int actual = PalindromeUtils.getNextNumber(testNumber);
+        int actual = PalindromeUtils.getDescendantNumber(testNumber);
         assertThat(actual).isEqualTo(expected);
     }
 }
