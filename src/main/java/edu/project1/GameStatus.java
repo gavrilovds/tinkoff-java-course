@@ -1,2 +1,6 @@
-package edu.project1;public enum GameStatus {
+package edu.project1;
+
+public enum GameStatus {
+    RUNNING,
+    STOPPED
 }
