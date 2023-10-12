@@ -9,16 +9,16 @@ public class SessionTest {
 
     @Test
     @DisplayName("Lose test")
-    public void gameStatusShouldBeStopped_whenNUserIsOutOfMistakes() {
+    public void sessionGuessShouldReturnDefeatGuessResult_whenNUserIsOutOfMistakes() {
         Session session = new Session(new InMemoryDictionary(new String[] {"tinkoff"}));
 
         session.guess('a');
         session.guess('a');
         session.guess('a');
         session.guess('a');
-        session.guess('a');
+        GuessResult actual = session.guess('a');
 
-        assertThat(session.getGameStatus()).isEqualTo(GameStatus.STOPPED);
+        assertThat(actual).isInstanceOf(Defeat.class);
 
     }
 
