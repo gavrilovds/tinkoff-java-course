@@ -23,9 +23,6 @@ public class ConsoleHangman {
     }
 
     private GuessResult tryGuess(char input) {
-        if (input == '\0') {
-            return session.giveUp();
-        }
         return session.guess(input);
     }
 

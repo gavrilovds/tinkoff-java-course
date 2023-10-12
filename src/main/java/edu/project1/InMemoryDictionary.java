@@ -5,7 +5,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class InMemoryDictionary implements Dictionary {
 
-    private final String[] words = new String[] {"tinkoff", "java", "world"};
+    private final String[] words;
+
+    public InMemoryDictionary(String[] words) {
+        this.words = words;
+    }
 
     @Override
     public @NotNull String randomWord() {
