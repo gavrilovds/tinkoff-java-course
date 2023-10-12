@@ -7,19 +7,27 @@ import org.apache.logging.log4j.Logger;
 public class FaultyConnection implements Connection {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final int BOUND = 3;
+    private static final int CHANCE_OF_CONNECTION_ERROR = 2;
+    private final Random random;
+
+    public FaultyConnection(Random random) {
+        this.random = random;
+    }
+
+    public FaultyConnection() {
+        this.random = new Random();
+    }
 
     @Override
     public void execute(String command) {
-        if (new Random().nextInt(1, BOUND) == 1) {
-            //connection is lost in chance 1/BOUND
-            throw new ConnectionException();
+        if (random.nextInt(CHANCE_OF_CONNECTION_ERROR) == 1) {
+            throw new ConnectionException("Connection error");
         }
-        //connection isn`t lost, so continue execution
+        //connection has not been lost, so continue execution
     }
 
     @Override
     public void close() throws Exception {
-        LOGGER.trace("Connection closed");
+        LOGGER.info("Connection closed");
     }
 }

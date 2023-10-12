@@ -1,6 +1,7 @@
 package edu.hw2.task4;
 
 import java.lang.reflect.Method;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,29 +10,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CallingInfoTest {
 
-    private static Stream<Method> methods() {
-        try {
-            return Stream.of(
-                new CallingInfoTest().getClass().getDeclaredMethod("firstMethod"),
-                new CallingInfoTest().getClass().getDeclaredMethod("secondMethod"),
-                new CallingInfoTest().getClass().getDeclaredMethod("thirdMethod"),
-                new CallingInfoTest().getClass().getDeclaredMethod("fourthMethod")
-            );
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-
+    private static Stream<Supplier<CallingInfo>> suppliers() {
+        return Stream.of(
+            CallingInfoTest::firstMethod,
+            CallingInfoTest::secondMethod,
+            CallingInfoTest::thirdMethod,
+            CallingInfoTest::fourthMethod
+        );
     }
 
     @ParameterizedTest
-    @MethodSource("methods")
+    @MethodSource("suppliers")
     @DisplayName("Тестирование callingInfo на методах с разной глубиной вызов")
-    public void method_shouldReturnCallingInfoObjectWithNameOfTheLastCalledMethod(Method method) {
-        try {
-            assertThat(((CallingInfo) method.invoke(null)).methodName()).isEqualTo("firstMethod");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void method_shouldReturnCallingInfoObjectWithNameOfTheLastCalledMethod(Supplier<CallingInfo> supplier) {
+        CallingInfo callingInfo = supplier.get();
+        assertThat(callingInfo)
+            .extracting("methodName", "className")
+            .containsExactly("firstMethod", "edu.hw2.task4.CallingInfoTest");
     }
 
     private static CallingInfo firstMethod() {

@@ -1,5 +1,6 @@
 package edu.hw2.task3;
 
+import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,6 +12,9 @@ public final class PopularCommandExecutor {
     private final int maxAttempts;
 
     public PopularCommandExecutor(ConnectionManager manager, int maxAttempts) {
+        if (maxAttempts < 1) {
+            throw new IllegalArgumentException("Number of max attempts should be >0");
+        }
         this.manager = manager;
         this.maxAttempts = maxAttempts;
     }
@@ -21,27 +25,22 @@ public final class PopularCommandExecutor {
 
     private void tryExecute(String command) {
         int currentNumberOfAttempts = 0;
-        boolean isExecuted = false;
         ConnectionException cause = null;
         Connection connection = manager.getConnection();
-        while (currentNumberOfAttempts < maxAttempts && !isExecuted) {
+        while (currentNumberOfAttempts < maxAttempts) {
             try (connection) {
                 connection.execute(command);
-                isExecuted = true;
+                LOGGER.info("Command was executed successfully");
+                return;
             } catch (Exception e) {
                 currentNumberOfAttempts++;
-                cause = (ConnectionException) e;
+                if (e instanceof ConnectionException) {
+                    cause = (ConnectionException) e;
+                }
             }
         }
         if (currentNumberOfAttempts == maxAttempts) {
-            LOGGER.trace("The maximum number of attempts has been exceeded");
-            throw cause;
+            throw new ConnectionException("The maximum number of attempts has been exceeded", cause);
         }
-        LOGGER.trace("Command was executed successfully");
-    }
-
-    public static void main(String[] args) {
-        PopularCommandExecutor popularCommandExecutor = new PopularCommandExecutor(new DefaultConnectionManager(), 3);
-        popularCommandExecutor.updatePackages();
     }
 }

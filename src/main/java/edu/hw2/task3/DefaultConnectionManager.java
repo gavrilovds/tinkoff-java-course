@@ -4,13 +4,21 @@ import java.util.Random;
 
 public class DefaultConnectionManager implements ConnectionManager {
 
-    private static final int BOUND = 5;
+    private static final int CHANCE_OF_FAULTY_CONNECTION = 5;
+    private final Random random;
+
+    public DefaultConnectionManager(Random random) {
+        this.random = random;
+    }
+
+    public DefaultConnectionManager() {
+        this.random = new Random();
+    }
 
     @Override
     public Connection getConnection() {
-        //chance to get a FaultyConnection is 1/BOUND
-        if (new Random().nextInt(1, BOUND) == 1) {
-            return new FaultyConnection();
+        if (random.nextInt(CHANCE_OF_FAULTY_CONNECTION) == 0) {
+            return new FaultyConnection(random);
         }
         return new StableConnection();
     }
