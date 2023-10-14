@@ -9,7 +9,7 @@ public class Square extends Rectangle {
     public Square() {
     }
 
-    public final Square createImmutableSquare(int side) {
+    public final Square createSquareWithSide(int side) {
         return new Square(side);
     }
 }

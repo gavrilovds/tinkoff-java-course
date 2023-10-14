@@ -28,7 +28,7 @@ public class ShapesTest {
     @Test
     @DisplayName("Creating immutable square from other")
     public void shouldCreateSquareWithGivenSide() {
-        Square actual = new Square(5).createImmutableSquare(3);
+        Square actual = new Square(5).createSquareWithSide(3);
         assertThat(actual.area()).isEqualTo(9);
     }
 
