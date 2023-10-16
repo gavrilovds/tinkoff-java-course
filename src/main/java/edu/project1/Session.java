@@ -9,22 +9,24 @@ public class Session {
     private final char[] userAnswer;
     //5 is a default number of attempts
     private final int maxAttempts = 5;
+    private static final int MIN_WORD_LENGTH = 4;
+    private static final char SURRENDER_SYMBOL = '\0';
     private int attempts;
 
     private GameStatus gameStatus;
 
     public Session(Dictionary dictionary) {
         this.answer = dictionary.randomWord();
+        if (this.answer.length() < MIN_WORD_LENGTH) {
+            throw new IllegalStateException("Hidden word length should be >=4");
+        }
         this.userAnswer = new char[answer.length()];
         this.gameStatus = GameStatus.RUNNING;
-        if (this.answer.isEmpty()) {
-            throw new IllegalStateException("Hidden word is empty");
-        }
         Arrays.fill(userAnswer, '*');
     }
 
     @NotNull public GuessResult guess(char guess) {
-        if (guess != '\0' && answer.indexOf(guess) != -1) {
+        if (guess != SURRENDER_SYMBOL && answer.indexOf(guess) != -1) {
             for (int i = 0; i < answer.length(); i++) {
                 if (answer.charAt(i) == guess) {
                     userAnswer[i] = answer.charAt(i);
@@ -37,7 +39,7 @@ public class Session {
             return new SuccessfulGuess(userAnswer, attempts, maxAttempts);
         }
         attempts++;
-        if (attempts == maxAttempts || guess == '\0') {
+        if (attempts == maxAttempts || guess == SURRENDER_SYMBOL) {
             return giveUp();
         }
         return new FailedGuess(userAnswer, attempts, maxAttempts);
