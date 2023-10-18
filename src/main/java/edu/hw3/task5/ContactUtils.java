@@ -2,9 +2,8 @@ package edu.hw3.task5;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Matcher;
+import java.util.Objects;
 
 public final class ContactUtils {
 
@@ -22,16 +21,24 @@ public final class ContactUtils {
             if (!person.matches(VALID_PERSON_REGEX)) {
                 throw new IllegalArgumentException("Wrong person information");
             }
-            String[] personInfo = person.split(" ");
-            Contact contact;
-            if (personInfo.length == 1) {
-                contact = new Contact(personInfo[0]);
-            } else {
-                contact = new Contact(personInfo[0], personInfo[1]);
-            }
+            Contact contact = getContact(person.split(" "));
             parsedContacts.add(contact);
         }
-        parsedContacts.sort(new ContactComparator());
+        if (sortOrder == SortOrder.DESC) {
+            parsedContacts.sort(new ContactComparatorDesc());
+        } else {
+            parsedContacts.sort(new ContactComparatorAsc());
+        }
         return parsedContacts;
+    }
+
+    private static Contact getContact(String[] personInfo) {
+        Contact contact;
+        if (personInfo.length == 1) {
+            contact = new Contact(personInfo[0]);
+        } else {
+            contact = new Contact(personInfo[0], personInfo[1]);
+        }
+        return contact;
     }
 }
