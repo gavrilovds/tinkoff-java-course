@@ -6,4 +6,8 @@ public record Constant(double value) implements Expression {
     public double evaluate() {
         return value;
     }
+
+    @Override public String toString() {
+        return String.valueOf(value);
+    }
 }

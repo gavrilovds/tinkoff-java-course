@@ -12,7 +12,7 @@ public final class PopularCommandExecutor {
 
     public PopularCommandExecutor(ConnectionManager manager, int maxAttempts) {
         if (maxAttempts < 1) {
-            throw new IllegalArgumentException("Number of max attempts should be >0");
+            throw new IllegalArgumentException("Number of max attempts should be > 0");
         }
         this.manager = manager;
         this.maxAttempts = maxAttempts;
@@ -24,22 +24,17 @@ public final class PopularCommandExecutor {
 
     private void tryExecute(String command) {
         int currentNumberOfAttempts = 0;
-        ConnectionException cause = null;
-        Connection connection = manager.getConnection();
         while (currentNumberOfAttempts < maxAttempts) {
-            try (connection) {
+            try (Connection connection = manager.getConnection()) {
                 connection.execute(command);
                 LOGGER.info("Command was executed successfully");
                 return;
             } catch (Exception e) {
                 currentNumberOfAttempts++;
-                if (e instanceof ConnectionException) {
-                    cause = (ConnectionException) e;
+                if (e instanceof ConnectionException && currentNumberOfAttempts >= maxAttempts) {
+                    throw new ConnectionException("The maximum number of attempts has been exceeded", e);
                 }
             }
-        }
-        if (currentNumberOfAttempts == maxAttempts) {
-            throw new ConnectionException("The maximum number of attempts has been exceeded", cause);
         }
     }
 }

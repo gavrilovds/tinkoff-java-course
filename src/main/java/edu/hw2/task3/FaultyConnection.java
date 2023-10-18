@@ -15,7 +15,7 @@ public class FaultyConnection implements Connection {
     }
 
     public FaultyConnection() {
-        this.random = new Random();
+        this(new Random());
     }
 
     @Override
@@ -27,7 +27,7 @@ public class FaultyConnection implements Connection {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         LOGGER.info("Connection closed");
     }
 }

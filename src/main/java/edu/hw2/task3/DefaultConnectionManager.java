@@ -12,7 +12,7 @@ public class DefaultConnectionManager implements ConnectionManager {
     }
 
     public DefaultConnectionManager() {
-        this.random = new Random();
+        this(new Random());
     }
 
     @Override

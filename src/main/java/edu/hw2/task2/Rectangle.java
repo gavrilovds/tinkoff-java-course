@@ -14,11 +14,11 @@ public class Rectangle {
 
     }
 
-    public final Rectangle createRectangleWithHeight(int height) {
+    public final Rectangle setHeight(int height) {
         return new Rectangle(height, width);
     }
 
-    public final Rectangle createRectangleWithWidth(int width) {
+    public final Rectangle setWidth(int width) {
         return new Rectangle(height, width);
     }
 

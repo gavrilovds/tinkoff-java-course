@@ -20,15 +20,15 @@ public class ShapesTest {
     @MethodSource("rectangles")
     @DisplayName("Test from task")
     public void rectangleArea(Rectangle rect) {
-        Rectangle rectangle = rect.createRectangleWithWidth(20);
-        Rectangle actual = rectangle.createRectangleWithHeight(10);
+        Rectangle rectangle = rect.setWidth(20);
+        Rectangle actual = rectangle.setHeight(10);
         assertThat(actual.area()).isEqualTo(200.0);
     }
 
     @Test
     @DisplayName("Creating immutable square from other")
     public void shouldCreateSquareWithGivenSide() {
-        Square actual = new Square(5).createSquareWithSide(3);
+        Square actual = new Square(5).setSide(3);
         assertThat(actual.area()).isEqualTo(9);
     }
 
@@ -36,8 +36,8 @@ public class ShapesTest {
     @DisplayName("Creating immutable rectangle from other")
     public void shouldCreateRectangleWithGivenHeightAndWidth() {
         Rectangle actual = new Rectangle(10, 10)
-            .createRectangleWithHeight(3)
-            .createRectangleWithWidth(3);
+            .setHeight(3)
+            .setWidth(3);
         assertThat(actual.area()).isEqualTo(9);
     }
 

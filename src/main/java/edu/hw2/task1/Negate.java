@@ -6,4 +6,8 @@ public record Negate(Expression expression) implements Expression {
     public double evaluate() {
         return -expression.evaluate();
     }
+
+    @Override public String toString() {
+        return " - " + expression.evaluate();
+    }
 }
