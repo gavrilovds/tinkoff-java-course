@@ -32,7 +32,7 @@ public final class RomanUtils {
 
     public static String convertToRoman(int number) {
         if (number < MIN_NUMBER || number > MAX_NUMBER) {
-            throw new IllegalArgumentException("Number should be >=1 and <=3999");
+            throw new IllegalArgumentException("Number should be >= 1 and <= 3999");
         }
         int numberCopy = number;
         StringBuilder romanNumber = new StringBuilder();
