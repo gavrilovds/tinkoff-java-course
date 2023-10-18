@@ -49,7 +49,7 @@ public class SessionTest {
     }
 
     @Test
-    @DisplayName("Game state changing correctly when guess is successful")
+    @DisplayName("Game state changing correctly when guess is failed")
     public void sessionStateShouldChangingCorrectly_whenUserHasFailedGuess() {
         Session session = new Session(new InMemoryDictionary(new String[] {"word"}));
         GuessResult failedGuess = session.guess('m');
