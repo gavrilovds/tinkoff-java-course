@@ -18,7 +18,7 @@ public class Session {
     public Session(Dictionary dictionary) {
         this.answer = dictionary.randomWord();
         if (this.answer.length() < MIN_WORD_LENGTH) {
-            throw new IllegalStateException("Hidden word length should be >=4");
+            throw new IllegalStateException("Hidden word length should be >= 4");
         }
         this.userAnswer = new char[answer.length()];
         this.gameStatus = GameStatus.RUNNING;
