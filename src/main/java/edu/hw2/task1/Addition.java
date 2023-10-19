@@ -7,7 +7,8 @@ public record Addition(Expression expression1, Expression expression2) implement
         return expression1.evaluate() + expression2.evaluate();
     }
 
-    @Override public String toString() {
-        return expression1.evaluate() + " + " + expression2.evaluate() + " = " + evaluate();
+    @Override
+    public String toString() {
+        return "(" + expression1 + " + " + expression2 + ")";
     }
 }

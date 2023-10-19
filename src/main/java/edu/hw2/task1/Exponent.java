@@ -7,7 +7,8 @@ public record Exponent(Expression expression, double degree) implements Expressi
         return Math.pow(expression.evaluate(), degree);
     }
 
-    @Override public String toString() {
-        return expression.evaluate() + " ^ " + degree + " = " + evaluate();
+    @Override
+    public String toString() {
+        return "(" + expression + ")" + " ^ " + degree;
     }
 }

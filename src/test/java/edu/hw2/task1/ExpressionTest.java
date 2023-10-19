@@ -62,6 +62,7 @@ public class ExpressionTest {
     ) {
         Expression multiplicationActual = new Multiplication(constant1, constant2);
         assertThat(multiplicationActual.evaluate()).isEqualTo(expected);
+
     }
 
     @ParameterizedTest
