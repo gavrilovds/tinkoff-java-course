@@ -24,15 +24,15 @@ public class DictionaryUtilsTest {
     @ParameterizedTest
     @MethodSource("basicTestsInputs")
     @DisplayName("Basic tests for #getFrequencyDictionary")
-    public void list_shouldReturnFrequencyDictionaryOfItsElements(List<?> testList, Map<?, ?> expected) {
-        Map<Object, Integer> actual = DictionaryUtils.getFrequencyDictionary(testList);
+    public <T> void list_shouldReturnFrequencyDictionaryOfItsElements(List<T> testList, Map<T, Integer> expected) {
+        Map<T, Integer> actual = DictionaryUtils.getFrequencyDictionary(testList);
         assertThat(actual).isEqualTo(expected);
     }
 
     @ParameterizedTest
     @NullAndEmptySource
     @DisplayName("Null and empty test for #getFrequencyDictionary")
-    public void list_shouldThrowException_whenListIsEmptyOrNull(List<?> testList) {
+    public <T> void list_shouldThrowException_whenListIsEmptyOrNull(List<T> testList) {
         assertThatThrownBy(() -> DictionaryUtils.getFrequencyDictionary(testList)).isInstanceOf(IllegalArgumentException.class);
     }
 }

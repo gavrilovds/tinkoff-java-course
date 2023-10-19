@@ -36,6 +36,6 @@ public class RomanUtilsTest {
     })
     @DisplayName("Wrong input tests for #convertToRoman")
     public void number_shouldThrowException_whenInputIsIncorrect(int testNumber) {
-        assertThatThrownBy(() -> RomanUtils.convertToRoman(testNumber));
+        assertThatThrownBy(() -> RomanUtils.convertToRoman(testNumber)).isInstanceOf(IllegalArgumentException.class);
     }
 }

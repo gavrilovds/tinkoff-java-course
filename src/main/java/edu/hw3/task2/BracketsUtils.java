@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public final class BracketsUtils {
 
-    private static final String WRONG_INPUT_MESSAGE = "Line should contain only bracket symbols";
+    private static final String WRONG_INPUT_MESSAGE = "Line should contain only '(' and ')' symbols";
     private static final String CANT_BE_CLUSTERIZED_MESSAGE = "This brackets line can`t be clusterized";
 
     private BracketsUtils() {
