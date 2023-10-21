@@ -10,5 +10,6 @@ public sealed interface GuessResult permits Defeat, Win, SuccessfulGuess, Failed
 
     int maxAttempts();
 
-    @NotNull String message();
+    @NotNull
+    String message();
 }

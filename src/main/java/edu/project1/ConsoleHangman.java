@@ -6,18 +6,17 @@ import org.apache.logging.log4j.Logger;
 
 public class ConsoleHangman {
 
-    private final Session session;
     private static final Logger LOGGER = LogManager.getLogger();
-    private final Scanner scanner;
+    private final Session session;
+    private final Scanner scanner = new Scanner(System.in);
 
-    public ConsoleHangman(Session session) {
-        this.session = session;
-        this.scanner = new Scanner(System.in);
+    public ConsoleHangman(Dictionary dictionary) {
+        session = new Session(dictionary);
     }
 
     public void run() {
         while (!session.getGameStatus().equals(GameStatus.STOPPED)) {
-            char userGuessedLetter = userInput();
+            char userGuessedLetter = getUserInput();
             printState(tryGuess(userGuessedLetter));
         }
     }
@@ -31,7 +30,7 @@ public class ConsoleHangman {
         LOGGER.info("The word: " + new String(guess.state()));
     }
 
-    private char userInput() {
+    private char getUserInput() {
         LOGGER.info("Guess a letter: ");
         while (true) {
             if (!scanner.hasNextLine()) {

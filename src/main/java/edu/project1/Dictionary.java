@@ -4,5 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Dictionary {
 
-    @NotNull String randomWord();
+    @NotNull
+    String getRandomWord();
 }

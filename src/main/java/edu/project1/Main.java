@@ -6,7 +6,7 @@ public final class Main {
     }
 
     public static void main(String[] args) {
-        new ConsoleHangman(new Session(new InMemoryDictionary(new String[] {"tinkoff", "java", "world"}))).run();
+        new ConsoleHangman(new InMemoryDictionary(new String[] {"tinkoff", "java", "world"})).run();
     }
 
 }

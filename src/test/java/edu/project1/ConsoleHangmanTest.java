@@ -12,7 +12,7 @@ public class ConsoleHangmanTest {
     @DisplayName("Game doesn`t start test")
     public void gameShouldThrowException_whenHiddenWordIsEmpty() {
         String[] words = new String[] {"", ""};
-        assertThatThrownBy(() -> new ConsoleHangman(new Session(new InMemoryDictionary(words)))).isInstanceOf(
+        assertThatThrownBy(() -> new ConsoleHangman(new InMemoryDictionary(words))).isInstanceOf(
             IllegalStateException.class);
     }
 
@@ -20,6 +20,6 @@ public class ConsoleHangmanTest {
     @DisplayName("Game start test")
     public void gameShouldNotThrowExceptionAtStart_whenHiddenWordIsCorrect() {
         String[] words = new String[] {"tinkoff", "java"};
-        assertThatCode(() -> new ConsoleHangman(new Session(new InMemoryDictionary(words)))).doesNotThrowAnyException();
+        assertThatCode(() -> new ConsoleHangman(new InMemoryDictionary(words))).doesNotThrowAnyException();
     }
 }

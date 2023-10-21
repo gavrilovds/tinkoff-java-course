@@ -42,9 +42,9 @@ public class SessionTest {
         Session session = new Session(new InMemoryDictionary(new String[] {"word"}));
         GuessResult successfulGuess = session.guess('w');
         Assertions.assertAll(
-            () -> assertThat(session.getAttempts()).isEqualTo(0),
+            () -> assertThat(successfulGuess.attempt()).isEqualTo(0),
             () -> assertThat(successfulGuess).isInstanceOf(SuccessfulGuess.class),
-            () -> assertThat(session.getUserAnswer()).containsExactly('w', '*', '*', '*')
+            () -> assertThat(successfulGuess.state()).containsExactly('w', '*', '*', '*')
         );
     }
 
@@ -54,9 +54,9 @@ public class SessionTest {
         Session session = new Session(new InMemoryDictionary(new String[] {"word"}));
         GuessResult failedGuess = session.guess('m');
         Assertions.assertAll(
-            () -> assertThat(session.getAttempts()).isEqualTo(1),
+            () -> assertThat(failedGuess.attempt()).isEqualTo(1),
             () -> assertThat(failedGuess).isInstanceOf(FailedGuess.class),
-            () -> assertThat(session.getUserAnswer()).containsExactly('*', '*', '*', '*')
+            () -> assertThat(failedGuess.state()).containsExactly('*', '*', '*', '*')
         );
     }
 
