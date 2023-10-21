@@ -5,8 +5,8 @@ import java.util.Queue;
 
 public class MoscowExchange implements StockMarket {
 
-    private final Queue<Stock> stockList;
     private static final String NULL_STOCK_MESSAGE = "Stock can`t be null";
+    private final Queue<Stock> stockList;
 
     public MoscowExchange() {
         stockList = new PriorityQueue<>(new StockComparator());
