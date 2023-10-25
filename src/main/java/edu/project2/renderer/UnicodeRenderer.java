@@ -10,6 +10,7 @@ public class UnicodeRenderer implements Renderer {
 
     private static final char PASSAGE_SYMBOL = '⬛';
     private static final char WALL_SYMBOL = '⬜';
+    private static final String PATH_SYMBOL = "\uD83D\uDFE2";
 
     @Override
     public String render(Maze maze) {
@@ -30,6 +31,22 @@ public class UnicodeRenderer implements Renderer {
 
     @Override
     public String renderPath(Maze maze, List<Coordinate> path) {
-        return null;
+        StringBuilder renderedMaze = new StringBuilder();
+        for (int i = 0; i < maze.getHeight(); i++) {
+            for (int j = 0; j < maze.getWidth(); j++) {
+                if (path.contains(new Coordinate(i, j))) {
+                    renderedMaze.append(PATH_SYMBOL);
+                    continue;
+                }
+                Cell currentCell = maze.getGrid()[i][j];
+                if (currentCell.getType() == Type.PASSAGE) {
+                    renderedMaze.append(PASSAGE_SYMBOL);
+                } else {
+                    renderedMaze.append(WALL_SYMBOL);
+                }
+            }
+            renderedMaze.append('\n');
+        }
+        return renderedMaze.toString();
     }
 }

@@ -12,8 +12,6 @@ import java.util.Stack;
 
 public class DepthFirstMazeGenerator extends AbstractGenerator {
 
-    private final Stack<Cell> cellStack = new Stack<>();
-
     @Override
     protected void initGenerator(int height, int width) {
         this.height = height;
@@ -26,8 +24,10 @@ public class DepthFirstMazeGenerator extends AbstractGenerator {
     @Override
     public Maze generate(int height, int width) {
         initGenerator(height, width);
+        Stack<Cell> cellStack = new Stack<>();
         Cell currentCell = grid[1][1];
         visited[1][1] = true;
+
         while (Arrays.deepToString(visited).contains("false")) {
             List<NeighbourWithDirection> unvisitedNeighbours = getUnvisitedNeighbours(
                 currentCell.getRow(),
