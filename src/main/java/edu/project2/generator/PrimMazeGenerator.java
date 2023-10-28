@@ -16,8 +16,6 @@ public class PrimMazeGenerator extends AbstractGenerator {
     public Maze generate(int height, int width) {
         initGenerator(height, width);
         grid = MazeUtils.getOnlyWallCells(height, width);
-        MazeUtils.createOffset(grid);
-
         markAsPassage(1, 1);
         while (!walls.isEmpty()) {
             Collections.shuffle(walls);
@@ -48,16 +46,16 @@ public class PrimMazeGenerator extends AbstractGenerator {
 
     private List<Cell> getNeighbours(int row, int column) {
         List<Cell> neighbours = new ArrayList<>();
-        if (row - 1 > 0) {
+        if (!MazeUtils.isOffset(row - 1, column, height, width)) {
             neighbours.add(grid[row - 1][column]);
         }
-        if (row + 1 < height) {
+        if (!MazeUtils.isOffset(row + 1, column, height, width)) {
             neighbours.add(grid[row + 1][column]);
         }
-        if (column - 1 > 0) {
+        if (!MazeUtils.isOffset(row, column - 1, height, width)) {
             neighbours.add(grid[row][column - 1]);
         }
-        if (column + 1 < width) {
+        if (!MazeUtils.isOffset(row, column + 1, height, width)) {
             neighbours.add(grid[row][column + 1]);
         }
         return neighbours;

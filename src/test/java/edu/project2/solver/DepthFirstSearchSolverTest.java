@@ -46,6 +46,7 @@ public class DepthFirstSearchSolverTest {
             new Coordinate(5, 5)
         );
     }
+
     @Test
     @DisplayName("DFS solver test with wrong input")
     public void solve_shouldThrowExceptionWhenInputIsIncorrect() {
