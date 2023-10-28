@@ -13,17 +13,10 @@ import java.util.Stack;
 public class DepthFirstMazeGenerator extends AbstractGenerator {
 
     @Override
-    protected void initGenerator(int height, int width) {
-        this.height = height;
-        this.width = width;
-        grid = new Cell[height][width];
-        visited = new boolean[height][width];
-        prepareGrid();
-    }
-
-    @Override
     public Maze generate(int height, int width) {
         initGenerator(height, width);
+        prepareGrid();
+
         Stack<Cell> cellStack = new Stack<>();
         Cell currentCell = grid[1][1];
         visited[1][1] = true;
@@ -76,6 +69,7 @@ public class DepthFirstMazeGenerator extends AbstractGenerator {
 
     private List<NeighbourWithDirection> getUnvisitedNeighbours(int row, int column) {
         List<NeighbourWithDirection> unvisitedNeighbours = new ArrayList<>();
+
         if (!MazeUtils.isOffset(row - 2, column, height, width) && !visited[row - 2][column]) {
             unvisitedNeighbours.add(new NeighbourWithDirection(grid[row - 2][column], NeighbourDirection.UP));
         }

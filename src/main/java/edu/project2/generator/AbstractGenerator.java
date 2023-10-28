@@ -9,5 +9,10 @@ public abstract class AbstractGenerator implements MazeGenerator {
     protected int height;
     protected int width;
 
-    protected abstract void initGenerator(int height, int width);
+    protected void initGenerator(int height, int width) {
+        this.height = height;
+        this.width = width;
+        grid = new Cell[height][width];
+        visited = new boolean[height][width];
+    }
 }

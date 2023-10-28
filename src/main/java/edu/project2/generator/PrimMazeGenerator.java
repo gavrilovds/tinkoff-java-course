@@ -13,17 +13,11 @@ public class PrimMazeGenerator extends AbstractGenerator {
     private final List<Cell> walls = new ArrayList<>();
 
     @Override
-    protected void initGenerator(int height, int width) {
-        this.height = height;
-        this.width = width;
-        grid = MazeUtils.getOnlyWallCells(height, width);
-        MazeUtils.createOffset(grid);
-        visited = new boolean[height][width];
-    }
-
-    @Override
     public Maze generate(int height, int width) {
         initGenerator(height, width);
+        grid = MazeUtils.getOnlyWallCells(height, width);
+        MazeUtils.createOffset(grid);
+
         markAsPassage(1, 1);
         while (!walls.isEmpty()) {
             Collections.shuffle(walls);
@@ -54,13 +48,13 @@ public class PrimMazeGenerator extends AbstractGenerator {
 
     private List<Cell> getNeighbours(int row, int column) {
         List<Cell> neighbours = new ArrayList<>();
-        if (row - 1 >= 0) {
+        if (row - 1 > 0) {
             neighbours.add(grid[row - 1][column]);
         }
         if (row + 1 < height) {
             neighbours.add(grid[row + 1][column]);
         }
-        if (column - 1 >= 0) {
+        if (column - 1 > 0) {
             neighbours.add(grid[row][column - 1]);
         }
         if (column + 1 < width) {
@@ -72,17 +66,7 @@ public class PrimMazeGenerator extends AbstractGenerator {
     private void markAsPassage(int row, int column) {
         visited[row][column] = true;
         grid[row][column].setType(Type.PASSAGE);
-        if (row - 1 >= 0) {
-            walls.add(grid[row - 1][column]);
-        }
-        if (row + 1 < height) {
-            walls.add(grid[row + 1][column]);
-        }
-        if (column - 1 >= 0) {
-            walls.add(grid[row][column - 1]);
-        }
-        if (column + 1 < width) {
-            walls.add(grid[row][column + 1]);
-        }
+        List<Cell> neighbours = getNeighbours(row, column);
+        walls.addAll(neighbours);
     }
 }
