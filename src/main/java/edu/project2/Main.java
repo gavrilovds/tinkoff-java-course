@@ -14,9 +14,9 @@ public final class Main {
     }
 
     public static void main(String[] args) {
-        Maze maze = new PrimMazeGenerator().generate(21, 21);
+        Maze maze = new DepthFirstMazeGenerator().generate(39, 39);
         System.out.println(new UnicodeRenderer().render(maze));
-        List<Coordinate> list = new DepthFirstSearchSolver().solve(maze, new Coordinate(1, 1), new Coordinate(19, 19));
+        List<Coordinate> list = new DepthFirstSearchSolver().solve(maze, new Coordinate(1, 1), new Coordinate(37, 37));
         System.out.println(new UnicodeRenderer().renderPath(maze, list));
     }
 }
