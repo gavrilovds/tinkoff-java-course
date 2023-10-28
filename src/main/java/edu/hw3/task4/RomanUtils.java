@@ -1,31 +1,9 @@
 package edu.hw3.task4;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 public final class RomanUtils {
 
     private static final int MAX_NUMBER = 3999;
     private static final int MIN_NUMBER = 1;
-
-    @SuppressWarnings("checkstyle:MagicNumber")
-    private static final Map<Integer, String> COMPLIANCE_TABLE = new LinkedHashMap<>() {
-        {
-            put(1000, "M");
-            put(900, "CM");
-            put(500, "D");
-            put(400, "CD");
-            put(100, "C");
-            put(90, "XC");
-            put(50, "L");
-            put(40, "XL");
-            put(10, "X");
-            put(9, "IX");
-            put(5, "V");
-            put(4, "IV");
-            put(1, "I");
-        }
-    };
 
     private RomanUtils() {
     }
@@ -37,13 +15,38 @@ public final class RomanUtils {
         int numberCopy = number;
         StringBuilder romanNumber = new StringBuilder();
         while (numberCopy > 0) {
-            for (var entry : COMPLIANCE_TABLE.entrySet()) {
-                while (numberCopy >= entry.getKey()) {
-                    romanNumber.append(entry.getValue());
-                    numberCopy -= entry.getKey();
+            for (var entry : RomanComplianceTable.values()) {
+                while (numberCopy >= entry.arabNumber) {
+                    romanNumber.append(entry);
+                    numberCopy -= entry.arabNumber;
                 }
             }
         }
         return romanNumber.toString();
+    }
+
+    private enum RomanComplianceTable {
+        M(1000),
+        CM(900),
+        D(500),
+        CD(400),
+        C(100),
+        XC(90),
+        L(50),
+        XL(40),
+        X(10),
+        IX(9),
+        V(5),
+        IV(4),
+        I(1);
+        private final int arabNumber;
+
+        RomanComplianceTable(int arabNumber) {
+            this.arabNumber = arabNumber;
+        }
+
+        public int getArabNumber() {
+            return arabNumber;
+        }
     }
 }

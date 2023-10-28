@@ -3,6 +3,7 @@ package edu.hw3.task2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import org.apache.commons.lang3.StringUtils;
 
 public final class BracketsUtils {
 
@@ -13,7 +14,7 @@ public final class BracketsUtils {
     }
 
     public static List<String> clusterize(String bracketsLine) {
-        if (bracketsLine == null || bracketsLine.isEmpty()) {
+        if (StringUtils.isBlank(bracketsLine)) {
             throw new IllegalArgumentException("Brackets line is empty");
         }
         List<String> clusters = new ArrayList<>();

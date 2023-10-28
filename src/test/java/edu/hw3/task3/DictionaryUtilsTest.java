@@ -14,18 +14,18 @@ public class DictionaryUtilsTest {
 
     private static Stream<Arguments> basicTestsInputs() {
         return Stream.of(
-            Arguments.of(List.of("a", "bb", "a", "bb"), Map.of("bb", 2, "a", 2)),
-            Arguments.of(List.of("this", "and", "that", "and"), Map.of("that", 1, "and", 2, "this", 1)),
-            Arguments.of(List.of("код", "код", "код", "bug"), Map.of("код", 3, "bug", 1)),
-            Arguments.of(List.of(1, 1, 2, 2), Map.of(1, 2, 2, 2))
+            Arguments.of(List.of("a", "bb", "a", "bb"), Map.of("bb", 2L, "a", 2L)),
+            Arguments.of(List.of("this", "and", "that", "and"), Map.of("that", 1L, "and", 2L, "this", 1L)),
+            Arguments.of(List.of("код", "код", "код", "bug"), Map.of("код", 3L, "bug", 1L)),
+            Arguments.of(List.of(1, 1, 2, 2), Map.of(1, 2L, 2, 2L))
         );
     }
 
     @ParameterizedTest
     @MethodSource("basicTestsInputs")
     @DisplayName("Basic tests for #getFrequencyDictionary")
-    public <T> void list_shouldReturnFrequencyDictionaryOfItsElements(List<T> testList, Map<T, Integer> expected) {
-        Map<T, Integer> actual = DictionaryUtils.getFrequencyDictionary(testList);
+    public <T> void list_shouldReturnFrequencyDictionaryOfItsElements(List<T> testList, Map<T, Long> expected) {
+        Map<T, Long> actual = DictionaryUtils.getFrequencyDictionary(testList);
         assertThat(actual).isEqualTo(expected);
     }
 

@@ -34,6 +34,7 @@
 
         <junit.version>5.10.0</junit.version>
         <assertj.version>3.24.2</assertj.version>
+        <apache.common.version>3.13.0</apache.common.version>
 
         <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
 
@@ -94,6 +95,11 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${apache.common.version}</version>
         </dependency>
     </dependencies>
 
