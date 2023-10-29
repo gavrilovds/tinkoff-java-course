@@ -47,7 +47,7 @@ public class MazeApplication {
         printer.print(MessagesUtils.INPUT_MAZE_SIZE_MESSAGE);
         height = reader.readInt();
         width = reader.readInt();
-        if (!validateSize(height, width)) {
+        if (!isSizeValid(height, width)) {
             throw new IllegalArgumentException("Wrong size input");
         }
     }
@@ -84,7 +84,7 @@ public class MazeApplication {
 
     }
 
-    private boolean validateSize(int height, int width) {
+    private boolean isSizeValid(int height, int width) {
         final int maxSize = 39;
         final int minSize = 11;
         return height <= maxSize && width <= maxSize && width >= minSize && height >= minSize

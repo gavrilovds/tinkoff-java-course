@@ -9,7 +9,7 @@ public final class MessagesUtils {
             Well, let's get started!""";
     public static final String INPUT_MAZE_SIZE_MESSAGE =
         """
-            \nTo begin, enter the height and width of the maze in one line.
+            To begin, enter the height and width of the maze in one line.
             The length and width must be odd.
             Minimum value - 11, maximum value - 39.
             Example: 21 33""";
@@ -35,10 +35,11 @@ public final class MessagesUtils {
             (1, 1) - start coordinates, (3, 4) - end coordinates
             Input:
             """;
-    public static final String END_MESSAGE = """
+    public static final String END_MESSAGE =
+        """
             This is solution for your maze!
             Thanks for using this application :)
-        """;
+            """;
 
     private MessagesUtils() {
     }

@@ -65,6 +65,8 @@ public class PrimMazeGenerator extends AbstractGenerator {
         visited[row][column] = true;
         grid[row][column].setType(Type.PASSAGE);
         List<Cell> neighbours = getNeighbours(row, column);
-        walls.addAll(neighbours);
+        if (row != height - 2 && row != width - 2) {
+            walls.addAll(neighbours);
+        }
     }
 }

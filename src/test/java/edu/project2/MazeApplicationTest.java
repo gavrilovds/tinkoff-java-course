@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Queue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
@@ -28,6 +29,7 @@ public class MazeApplicationTest {
     }
 
     @Test
+    @DisplayName("#run invalid input test#1")
     public void run_shouldPrintCorrectDataWhenMazeInputIsIncorrect() {
         input.addAll(List.of(23, 24, 1, 1, 1, 1, 13, 13));
         Assertions.assertAll(
@@ -40,6 +42,7 @@ public class MazeApplicationTest {
     }
 
     @Test
+    @DisplayName("#run invalid input test#2")
     public void run_shouldPrintCorrectDataWhenChooseGeneratorIsIncorrect() {
         input.addAll(List.of(23, 23, 4, 1, 1, 1, 13, 13));
         Assertions.assertAll(
@@ -53,6 +56,7 @@ public class MazeApplicationTest {
     }
 
     @Test
+    @DisplayName("#run invalid input test#3")
     public void run_shouldPrintCorrectDataWhenChooseSolverIsIncorrect() {
         input.addAll(List.of(23, 23, 1, 3, 1, 1, 13, 13));
         Assertions.assertAll(
@@ -67,7 +71,8 @@ public class MazeApplicationTest {
     }
 
     @Test
-    public void run_shouldPrintCorrectDataWhenInputCoordinatesIsInCorrect() {
+    @DisplayName("#run invalid input test#4")
+    public void run_shouldPrintCorrectDataWhenInputCoordinatesIsIncorrect() {
         input.addAll(List.of(23, 23, 1, 1, -1, 1, 13, 13));
         Assertions.assertAll(
             () -> assertThatThrownBy(() -> application.run()).isInstanceOf(IllegalArgumentException.class),
@@ -78,6 +83,7 @@ public class MazeApplicationTest {
     }
 
     @Test
+    @DisplayName("#run valid input test")
     public void run_shouldPrintCorrectDataWhenAllInputIsCorrect() {
         input.addAll(List.of(23, 23, 1, 1, 1, 1, 13, 13));
         application.run();
