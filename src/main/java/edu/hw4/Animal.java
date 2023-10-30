@@ -1,5 +1,8 @@
 package edu.hw4;
 
+import lombok.Builder;
+
+@Builder
 public record Animal(String name,
                      Type type,
                      Sex sex,
