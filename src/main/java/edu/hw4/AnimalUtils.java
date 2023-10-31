@@ -2,12 +2,15 @@ package edu.hw4;
 
 import edu.hw4.Animal.Sex;
 import edu.hw4.Animal.Type;
+import edu.hw4.ValidationError.ErrorType;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class AnimalUtils {
@@ -137,5 +140,45 @@ public final class AnimalUtils {
         return Arrays.stream(animals).flatMap(List::stream)
             .filter(animal -> animal.type() == Type.FISH)
             .max(Comparator.comparingInt(Animal::weight)).orElse(null);
+    }
+
+    public static Map<String, Set<ValidationError>> getAnimalsErrorMap(List<Animal> animals) {
+        return animals.stream()
+            .collect(Collectors.collectingAndThen(
+                Collectors.toMap(Animal::name, AnimalUtils::validateAnimal),
+                map -> {
+                    map.values().removeIf(Set::isEmpty);
+                    return map;
+                }
+            ));
+    }
+
+    public static Map<String, String> getReadableAnimalsErrorMap(List<Animal> animals) {
+        return animals.stream()
+            .collect(Collectors.collectingAndThen(
+                Collectors.toMap(
+                    Animal::name,
+                    animal -> validateAnimal(animal).stream().map(el -> el.errorType().toString())
+                        .collect(Collectors.joining(", "))
+                ),
+                map -> {
+                    map.values().removeIf(String::isEmpty);
+                    return map;
+                }
+            ));
+    }
+
+    private static Set<ValidationError> validateAnimal(Animal animal) {
+        Set<ValidationError> errors = new HashSet<>();
+        if (animal.age() <= 0) {
+            errors.add(new ValidationError(ErrorType.AGE, ErrorType.AGE.getErrorMessage()));
+        }
+        if (animal.height() <= 0) {
+            errors.add(new ValidationError(ErrorType.HEIGHT, ErrorType.HEIGHT.getErrorMessage()));
+        }
+        if (animal.weight() <= 0) {
+            errors.add(new ValidationError(ErrorType.WEIGHT, ErrorType.WEIGHT.getErrorMessage()));
+        }
+        return errors;
     }
 }

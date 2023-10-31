@@ -2,10 +2,12 @@ package edu.hw4;
 
 import edu.hw4.Animal.Sex;
 import edu.hw4.Animal.Type;
+import edu.hw4.ValidationError.ErrorType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -57,7 +59,7 @@ public class AnimalUtilsTest {
         animals.add(Animal.builder().type(Type.CAT).build());
         animals.add(Animal.builder().type(Type.FISH).build());
         Map<Type, Long> actual = AnimalUtils.countAnimalTypes(animals);
-        assertThat(actual).contains(entry(Type.FISH, 1l), entry(Type.DOG, 2l), entry(Type.CAT, 1l));
+        assertThat(actual).contains(entry(Type.FISH, 1L), entry(Type.DOG, 2L), entry(Type.CAT, 1L));
     }
 
     @Test
@@ -233,6 +235,43 @@ public class AnimalUtilsTest {
 
         Animal actual = AnimalUtils.getTheHeaviestFish(animals, animals2, animals3);
         assertThat(actual).isEqualTo(animals3.get(0));
+    }
+
+    @Test
+    @DisplayName("#getAnimalsErrorMap test")
+    public void getAnimalsErrorMap_shouldReturnMapOfAnimalErrors() {
+        animals.add(Animal.builder().weight(-1).height(-1).age(0).name("Bobik").build());
+        animals.add(Animal.builder().weight(-1).height(12).age(0).name("Grizlich").build());
+        animals.add(Animal.builder().weight(12).height(13).age(10).name("Gavgavich").build());
+        Map<String, Set<ValidationError>> actual = AnimalUtils.getAnimalsErrorMap(animals);
+        assertThat(actual)
+            .containsExactly(
+                entry(
+                    "Bobik",
+                    Set.of(
+                        new ValidationError(ErrorType.AGE, ErrorType.AGE.getErrorMessage()),
+                        new ValidationError(ErrorType.HEIGHT, ErrorType.HEIGHT.getErrorMessage()),
+                        new ValidationError(ErrorType.WEIGHT, ErrorType.WEIGHT.getErrorMessage())
+                    )
+                ),
+                entry(
+                    "Grizlich",
+                    Set.of(
+                        new ValidationError(ErrorType.WEIGHT, ErrorType.WEIGHT.getErrorMessage()),
+                        new ValidationError(ErrorType.AGE, ErrorType.AGE.getErrorMessage())
+                    )
+                )
+            );
+    }
+
+    @Test
+    @DisplayName("#getReadbleAnimalsErrorMap test")
+    public void getReadableAnimalsErrorMap_shouldReturnMapOfStringsWithNameAndErrorTypes() {
+        animals.add(Animal.builder().name("Bobik").age(-1).weight(120).height(-20).build());
+        animals.add(Animal.builder().name("Sobaken").age(1).weight(120).height(20).build());
+        Map<String, String> actual = AnimalUtils.getReadableAnimalsErrorMap(animals);
+        assertThat(actual)
+            .hasEntrySatisfying("Bobik", val -> assertThat(val).isIn("AGE, HEIGHT", "HEIGHT, AGE"));
     }
 }
 
