@@ -3,7 +3,7 @@ package edu.hw4;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-public record ValidationError(ErrorType errorType, String message) {
+public record ValidationError(ErrorType errorType) {
 
     @Getter
     @AllArgsConstructor

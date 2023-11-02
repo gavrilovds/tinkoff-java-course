@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class AnimalUtils {
@@ -54,7 +55,7 @@ public final class AnimalUtils {
         return animals.stream()
             .collect(Collectors.toMap(
                 Animal::type,
-                animal -> animal,
+                Function.identity(),
                 (animal1, animal2) -> animal1.weight() >= animal2.weight() ? animal1 : animal2
             ));
     }
@@ -171,13 +172,13 @@ public final class AnimalUtils {
     private static Set<ValidationError> validateAnimal(Animal animal) {
         Set<ValidationError> errors = new HashSet<>();
         if (animal.age() <= 0) {
-            errors.add(new ValidationError(ErrorType.AGE, ErrorType.AGE.getErrorMessage()));
+            errors.add(new ValidationError(ErrorType.AGE));
         }
         if (animal.height() <= 0) {
-            errors.add(new ValidationError(ErrorType.HEIGHT, ErrorType.HEIGHT.getErrorMessage()));
+            errors.add(new ValidationError(ErrorType.HEIGHT));
         }
         if (animal.weight() <= 0) {
-            errors.add(new ValidationError(ErrorType.WEIGHT, ErrorType.WEIGHT.getErrorMessage()));
+            errors.add(new ValidationError(ErrorType.WEIGHT));
         }
         return errors;
     }

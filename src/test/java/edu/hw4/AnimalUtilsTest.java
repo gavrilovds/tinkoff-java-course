@@ -249,16 +249,16 @@ public class AnimalUtilsTest {
                 entry(
                     "Bobik",
                     Set.of(
-                        new ValidationError(ErrorType.AGE, ErrorType.AGE.getErrorMessage()),
-                        new ValidationError(ErrorType.HEIGHT, ErrorType.HEIGHT.getErrorMessage()),
-                        new ValidationError(ErrorType.WEIGHT, ErrorType.WEIGHT.getErrorMessage())
+                        new ValidationError(ErrorType.AGE),
+                        new ValidationError(ErrorType.HEIGHT),
+                        new ValidationError(ErrorType.WEIGHT)
                     )
                 ),
                 entry(
                     "Grizlich",
                     Set.of(
-                        new ValidationError(ErrorType.WEIGHT, ErrorType.WEIGHT.getErrorMessage()),
-                        new ValidationError(ErrorType.AGE, ErrorType.AGE.getErrorMessage())
+                        new ValidationError(ErrorType.WEIGHT),
+                        new ValidationError(ErrorType.AGE)
                     )
                 )
             );
