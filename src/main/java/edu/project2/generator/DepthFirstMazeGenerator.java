@@ -5,26 +5,29 @@ import edu.project2.model.Cell.Type;
 import edu.project2.model.Maze;
 import edu.project2.util.MazeUtils;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public class DepthFirstMazeGenerator extends AbstractGenerator {
+public class DepthFirstMazeGenerator implements MazeGenerator {
 
     @Override
     public Maze generate(int height, int width) {
-        initGenerator(height, width);
-        prepareGrid();
+        Cell[][] grid = new Cell[height][width];
+        boolean[][] visited = new boolean[height][width];
+        Maze maze = new Maze(height, width, grid);
+        prepareGrid(maze, visited);
 
         Stack<Cell> cellStack = new Stack<>();
         Cell currentCell = grid[1][1];
         visited[1][1] = true;
 
-        while (Arrays.deepToString(visited).contains("false")) {
+        while (gridHasUnvisitedCells(visited)) {
             List<NeighbourWithDirection> unvisitedNeighbours = getUnvisitedNeighbours(
                 currentCell.getRow(),
-                currentCell.getColumn()
+                currentCell.getColumn(),
+                maze,
+                visited
             );
             if (!unvisitedNeighbours.isEmpty()) {
                 cellStack.push(currentCell);
@@ -51,35 +54,56 @@ public class DepthFirstMazeGenerator extends AbstractGenerator {
             }
         }
 
-        return new Maze(height, width, grid);
+        return maze;
     }
 
-    private void prepareGrid() {
+    private void prepareGrid(Maze maze, boolean[][] visited) {
+        int height = maze.getHeight();
+        int width = maze.getWidth();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 if ((i % 2 != 0 && j % 2 != 0) && (i < height - 1 && j < width - 1)) {
-                    grid[i][j] = new Cell(i, j, Type.PASSAGE);
+                    maze.getGrid()[i][j] = new Cell(i, j, Type.PASSAGE);
                 } else {
-                    grid[i][j] = new Cell(i, j, Type.WALL);
+                    maze.getGrid()[i][j] = new Cell(i, j, Type.WALL);
                     visited[i][j] = true;
                 }
             }
         }
     }
 
-    private List<NeighbourWithDirection> getUnvisitedNeighbours(int row, int column) {
-        List<NeighbourWithDirection> unvisitedNeighbours = new ArrayList<>();
+    private boolean gridHasUnvisitedCells(boolean[][] visited) {
+        for (int i = 0; i < visited.length; i++) {
+            for (int j = 0; j < visited[i].length; j++) {
+                if (!visited[i][j]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-        if (!MazeUtils.isOffset(row - 2, column, height, width) && !visited[row - 2][column]) {
+    private List<NeighbourWithDirection> getUnvisitedNeighbours(
+        int row,
+        int column,
+        Maze maze,
+        boolean[][] visited
+    ) {
+        List<NeighbourWithDirection> unvisitedNeighbours = new ArrayList<>();
+        int height = maze.getHeight();
+        int width = maze.getWidth();
+        Cell[][] grid = maze.getGrid();
+
+        if (!MazeUtils.isCoordinatesOutOfMaze(row - 2, column, height, width) && !visited[row - 2][column]) {
             unvisitedNeighbours.add(new NeighbourWithDirection(grid[row - 2][column], NeighbourDirection.UP));
         }
-        if (!MazeUtils.isOffset(row + 2, column, height, width) && !visited[row + 2][column]) {
+        if (!MazeUtils.isCoordinatesOutOfMaze(row + 2, column, height, width) && !visited[row + 2][column]) {
             unvisitedNeighbours.add(new NeighbourWithDirection(grid[row + 2][column], NeighbourDirection.DOWN));
         }
-        if (!MazeUtils.isOffset(row, column - 2, height, width) && !visited[row][column - 2]) {
+        if (!MazeUtils.isCoordinatesOutOfMaze(row, column - 2, height, width) && !visited[row][column - 2]) {
             unvisitedNeighbours.add(new NeighbourWithDirection(grid[row][column - 2], NeighbourDirection.LEFT));
         }
-        if (!MazeUtils.isOffset(row, column + 2, height, width) && !visited[row][column + 2]) {
+        if (!MazeUtils.isCoordinatesOutOfMaze(row, column + 2, height, width) && !visited[row][column + 2]) {
             unvisitedNeighbours.add(new NeighbourWithDirection(grid[row][column + 2], NeighbourDirection.RIGHT));
         }
 

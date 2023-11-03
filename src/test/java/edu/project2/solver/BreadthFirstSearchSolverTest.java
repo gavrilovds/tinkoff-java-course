@@ -1,16 +1,12 @@
 package edu.project2.solver;
 
 import edu.project2.model.Cell;
-import edu.project2.model.Coordinate;
+import edu.project2.model.Coordinates;
 import edu.project2.model.Maze;
-import edu.project2.solver.BreadthFirstSearchSolver;
-import edu.project2.solver.DepthFirstSearchSolver;
-import edu.project2.solver.Solver;
 import edu.project2.util.MazeUtils;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
@@ -30,17 +26,17 @@ public class BreadthFirstSearchSolverTest {
     @Test
     @DisplayName("BFS solver test")
     public void solve_shouldFindCorrectPath() {
-        List<Coordinate> actual = solver.solve(maze, new Coordinate(1, 1), new Coordinate(3, 3));
+        List<Coordinates> actual = solver.solve(maze, new Coordinates(1, 1), new Coordinates(3, 3));
         Collections.reverse(actual);
-        assertThat(actual).containsExactly(new Coordinate(1, 1), new Coordinate(2, 1),
-            new Coordinate(3, 1), new Coordinate(3, 2), new Coordinate(3, 3)
+        assertThat(actual).containsExactly(new Coordinates(1, 1), new Coordinates(2, 1),
+            new Coordinates(3, 1), new Coordinates(3, 2), new Coordinates(3, 3)
         );
     }
 
     @Test
     @DisplayName("BFS solver test with wrong input")
     public void solve_shouldThrowExceptionWhenInputIsIncorrect() {
-        assertThatThrownBy(() -> solver.solve(maze, new Coordinate(-1, 0), new Coordinate(9, 9))).isInstanceOf(
+        assertThatThrownBy(() -> solver.solve(maze, new Coordinates(-1, 0), new Coordinates(9, 9))).isInstanceOf(
             IllegalArgumentException.class);
     }
 }

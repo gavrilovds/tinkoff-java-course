@@ -8,20 +8,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PrimMazeGenerator extends AbstractGenerator {
-
-    private final List<Cell> walls = new ArrayList<>();
+public class PrimMazeGenerator implements MazeGenerator {
 
     @Override
     public Maze generate(int height, int width) {
-        initGenerator(height, width);
-        grid = MazeUtils.getOnlyWallCells(height, width);
-        markAsPassage(1, 1);
+        List<Cell> walls = new ArrayList<>();
+        boolean[][] visited = new boolean[height][width];
+        Cell[][] grid = MazeUtils.getOnlyWallCells(height, width);
+        Maze maze = new Maze(height, width, grid);
+
+        markAsPassage(1, 1, visited, maze, walls);
         while (!walls.isEmpty()) {
             Collections.shuffle(walls);
             Cell randomCell = walls.get(0);
             List<Cell> neighbours =
-                getNeighbours(randomCell.getRow(), randomCell.getColumn());
+                getNeighbours(randomCell.getRow(), randomCell.getColumn(), maze);
 
             int visitedNeighboursCounter = 0;
             for (Cell neighbour : neighbours) {
@@ -30,13 +31,13 @@ public class PrimMazeGenerator extends AbstractGenerator {
                 }
             }
 
-            if (visitedNeighboursCounter == 1 && !MazeUtils.isOffset(
+            if (visitedNeighboursCounter == 1 && !MazeUtils.isCoordinatesOutOfMaze(
                 randomCell.getRow(),
                 randomCell.getColumn(),
                 height,
                 width
             )) {
-                markAsPassage(randomCell.getRow(), randomCell.getColumn());
+                markAsPassage(randomCell.getRow(), randomCell.getColumn(), visited, maze, walls);
             }
 
             walls.remove(randomCell);
@@ -44,28 +45,31 @@ public class PrimMazeGenerator extends AbstractGenerator {
         return new Maze(height, width, grid);
     }
 
-    private List<Cell> getNeighbours(int row, int column) {
+    private List<Cell> getNeighbours(int row, int column, Maze maze) {
+        int height = maze.getHeight();
+        int width = maze.getWidth();
+        Cell[][] grid = maze.getGrid();
         List<Cell> neighbours = new ArrayList<>();
-        if (!MazeUtils.isOffset(row - 1, column, height, width)) {
+        if (!MazeUtils.isCoordinatesOutOfMaze(row - 1, column, height, width)) {
             neighbours.add(grid[row - 1][column]);
         }
-        if (!MazeUtils.isOffset(row + 1, column, height, width)) {
+        if (!MazeUtils.isCoordinatesOutOfMaze(row + 1, column, height, width)) {
             neighbours.add(grid[row + 1][column]);
         }
-        if (!MazeUtils.isOffset(row, column - 1, height, width)) {
+        if (!MazeUtils.isCoordinatesOutOfMaze(row, column - 1, height, width)) {
             neighbours.add(grid[row][column - 1]);
         }
-        if (!MazeUtils.isOffset(row, column + 1, height, width)) {
+        if (!MazeUtils.isCoordinatesOutOfMaze(row, column + 1, height, width)) {
             neighbours.add(grid[row][column + 1]);
         }
         return neighbours;
     }
 
-    private void markAsPassage(int row, int column) {
+    private void markAsPassage(int row, int column, boolean[][] visited, Maze maze, List<Cell> walls) {
         visited[row][column] = true;
-        grid[row][column].setType(Type.PASSAGE);
-        List<Cell> neighbours = getNeighbours(row, column);
-        if (row != height - 2 && row != width - 2) {
+        maze.getGrid()[row][column].setType(Type.PASSAGE);
+        List<Cell> neighbours = getNeighbours(row, column, maze);
+        if (row != maze.getHeight() - 2 && row != maze.getWidth() - 2) {
             walls.addAll(neighbours);
         }
     }

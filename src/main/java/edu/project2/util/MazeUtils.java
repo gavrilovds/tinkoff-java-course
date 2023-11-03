@@ -39,7 +39,7 @@ public final class MazeUtils {
         }
     }
 
-    public static boolean isOffset(int row, int column, int height, int width) {
+    public static boolean isCoordinatesOutOfMaze(int row, int column, int height, int width) {
         return row <= 0 || row >= height - 1 || column <= 0 || column >= width - 1;
     }
 }

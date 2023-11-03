@@ -1,6 +1,6 @@
 package edu.project2.generator;
 
-import edu.project2.model.Coordinate;
+import edu.project2.model.Coordinates;
 import edu.project2.model.Maze;
 import edu.project2.solver.DepthFirstSearchSolver;
 import java.util.List;
@@ -14,8 +14,8 @@ public class DepthFirstMazeGeneratorTest {
     @DisplayName("#generate test")
     public void generate_shouldReturnMazeWhichHaveSolution() {
         Maze testMaze = new DepthFirstMazeGenerator().generate(13, 13);
-        List<Coordinate> actual =
-            new DepthFirstSearchSolver().solve(testMaze, new Coordinate(1, 1), new Coordinate(11, 11));
+        List<Coordinates> actual =
+            new DepthFirstSearchSolver().solve(testMaze, new Coordinates(1, 1), new Coordinates(11, 11));
         assertThat(actual).isNotEmpty();
     }
 }

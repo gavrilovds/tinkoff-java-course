@@ -4,9 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import edu.project2.model.Cell;
 import edu.project2.model.Cell.Type;
-import edu.project2.model.Coordinate;
+import edu.project2.model.Coordinates;
 import edu.project2.model.Maze;
-import edu.project2.renderer.UnicodeRenderer;
 import edu.project2.util.MazeUtils;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
@@ -33,24 +32,24 @@ public class DepthFirstSearchSolverTest {
     @Test
     @DisplayName("DFS solver test")
     public void solve_shouldFindCorrectPath() {
-        List<Coordinate> actual = solver.solve(maze, new Coordinate(1, 1), new Coordinate(5, 5));
+        List<Coordinates> actual = solver.solve(maze, new Coordinates(1, 1), new Coordinates(5, 5));
         assertThat(actual).containsExactly(
-            new Coordinate(1, 1),
-            new Coordinate(1, 2),
-            new Coordinate(1, 3),
-            new Coordinate(1, 4),
-            new Coordinate(1, 5),
-            new Coordinate(2, 5),
-            new Coordinate(3, 5),
-            new Coordinate(4, 5),
-            new Coordinate(5, 5)
+            new Coordinates(1, 1),
+            new Coordinates(1, 2),
+            new Coordinates(1, 3),
+            new Coordinates(1, 4),
+            new Coordinates(1, 5),
+            new Coordinates(2, 5),
+            new Coordinates(3, 5),
+            new Coordinates(4, 5),
+            new Coordinates(5, 5)
         );
     }
 
     @Test
     @DisplayName("DFS solver test with wrong input")
     public void solve_shouldThrowExceptionWhenInputIsIncorrect() {
-        assertThatThrownBy(() -> solver.solve(maze, new Coordinate(-1, 0), new Coordinate(9, 9))).isInstanceOf(
+        assertThatThrownBy(() -> solver.solve(maze, new Coordinates(-1, 0), new Coordinates(9, 9))).isInstanceOf(
             IllegalArgumentException.class);
     }
 }

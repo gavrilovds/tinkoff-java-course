@@ -2,7 +2,7 @@ package edu.project2.renderer;
 
 import edu.project2.model.Cell;
 import edu.project2.model.Cell.Type;
-import edu.project2.model.Coordinate;
+import edu.project2.model.Coordinates;
 import edu.project2.model.Maze;
 import java.util.List;
 
@@ -30,11 +30,11 @@ public class UnicodeRenderer implements Renderer {
     }
 
     @Override
-    public String renderPath(Maze maze, List<Coordinate> path) {
+    public String renderPath(Maze maze, List<Coordinates> path) {
         StringBuilder renderedMaze = new StringBuilder();
         for (int i = 0; i < maze.getHeight(); i++) {
             for (int j = 0; j < maze.getWidth(); j++) {
-                if (path.contains(new Coordinate(i, j))) {
+                if (path.contains(new Coordinates(i, j))) {
                     renderedMaze.append(PATH_SYMBOL);
                     continue;
                 }

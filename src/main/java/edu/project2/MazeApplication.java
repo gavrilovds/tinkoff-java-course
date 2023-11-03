@@ -3,7 +3,7 @@ package edu.project2;
 import edu.project2.generator.DepthFirstMazeGenerator;
 import edu.project2.generator.MazeGenerator;
 import edu.project2.generator.PrimMazeGenerator;
-import edu.project2.model.Coordinate;
+import edu.project2.model.Coordinates;
 import edu.project2.model.Maze;
 import edu.project2.printer.Printer;
 import edu.project2.reader.Reader;
@@ -19,8 +19,6 @@ public class MazeApplication {
 
     private final Printer printer;
     private final Reader reader;
-    private MazeGenerator generator;
-    private Solver solver;
     private int height;
     private int width;
 
@@ -31,16 +29,19 @@ public class MazeApplication {
 
     public void run() {
         printer.print(MessagesUtils.HELLO_MESSAGE);
-        inputMazeSize();
-        chooseGenerator();
-        chooseSolver();
-        Maze maze = generator.generate(height, width);
+        Maze maze = initMaze();
+        Solver solver = chooseSolver();
         Renderer renderer = new UnicodeRenderer();
         printer.print(renderer.render(maze));
-        Coordinate[] coordinates = inputCoordinates();
-        List<Coordinate> path = solver.solve(maze, coordinates[0], coordinates[1]);
+        Coordinates[] coordinates = inputCoordinates();
+        List<Coordinates> path = solver.solve(maze, coordinates[0], coordinates[1]);
         printer.print(renderer.renderPath(maze, path));
         printer.print(MessagesUtils.END_MESSAGE);
+    }
+
+    private Maze initMaze() {
+        inputMazeSize();
+        return chooseGenerator().generate(height, width);
     }
 
     private void inputMazeSize() {
@@ -52,34 +53,34 @@ public class MazeApplication {
         }
     }
 
-    private void chooseGenerator() {
+    private MazeGenerator chooseGenerator() {
         printer.print(MessagesUtils.CHOOSE_GENERATOR_MESSAGE);
         int number = reader.readInt();
-        generator = switch (number) {
+        return switch (number) {
             case 1 -> new DepthFirstMazeGenerator();
             case 2 -> new PrimMazeGenerator();
             default -> throw new IllegalArgumentException("Wrong generator input");
         };
     }
 
-    private void chooseSolver() {
+    private Solver chooseSolver() {
         printer.print(MessagesUtils.CHOOSE_SOLVER_MESSAGE);
         int number = reader.readInt();
-        solver = switch (number) {
+        return switch (number) {
             case 1 -> new BreadthFirstSearchSolver();
             case 2 -> new DepthFirstSearchSolver();
             default -> throw new IllegalArgumentException("Wrong solver input");
         };
     }
 
-    private Coordinate[] inputCoordinates() {
+    private Coordinates[] inputCoordinates() {
         printer.print(MessagesUtils.INPUT_COORDINATES_MESSAGE);
         int rowStart = reader.readInt();
         int columnStart = reader.readInt();
         int rowEnd = reader.readInt();
         int columnEnd = reader.readInt();
-        return new Coordinate[] {
-            new Coordinate(rowStart, columnStart), new Coordinate(rowEnd, columnEnd)
+        return new Coordinates[] {
+            new Coordinates(rowStart, columnStart), new Coordinates(rowEnd, columnEnd)
         };
 
     }

@@ -1,7 +1,7 @@
 package edu.project2.renderer;
 
 import edu.project2.model.Cell;
-import edu.project2.model.Coordinate;
+import edu.project2.model.Coordinates;
 import edu.project2.model.Maze;
 import edu.project2.util.MazeUtils;
 import java.util.ArrayList;
@@ -35,10 +35,10 @@ public class RendererTest {
         Cell[][] grid = MazeUtils.getOnlyPassageCells(5, 5);
         MazeUtils.createOffset(grid);
         Maze testMaze = new Maze(5, 5, grid);
-        List<Coordinate> testPath = new ArrayList<>() {{
-            add(new Coordinate(1, 1));
-            add(new Coordinate(1, 2));
-            add(new Coordinate(2, 2));
+        List<Coordinates> testPath = new ArrayList<>() {{
+            add(new Coordinates(1, 1));
+            add(new Coordinates(1, 2));
+            add(new Coordinates(2, 2));
         }};
 
         assertThat(renderer.renderPath(testMaze, testPath)).isEqualTo("""
