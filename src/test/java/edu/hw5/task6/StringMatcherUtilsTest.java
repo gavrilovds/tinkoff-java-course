@@ -36,6 +36,7 @@ public class StringMatcherUtilsTest {
         assertThatThrownBy(() -> StringMatcherUtils.isStringSubstringOf(testSubstring, "fwkmrwe")).isInstanceOf(
             IllegalArgumentException.class);
     }
+
     @ParameterizedTest
     @NullAndEmptySource
     @DisplayName("#isStringSubstringOf fullString parameter null or empty test")

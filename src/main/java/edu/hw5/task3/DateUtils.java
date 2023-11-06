@@ -7,8 +7,6 @@ import edu.hw5.task3.parser.DateParser3;
 import edu.hw5.task3.parser.DateParser4;
 import edu.hw5.task3.parser.DateParser5;
 import edu.hw5.task3.parser.DateParser6;
-import edu.hw5.task3.parser.DateParser7;
-import edu.hw5.task3.parser.DateParser8;
 import java.time.LocalDate;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
@@ -21,9 +19,7 @@ public final class DateUtils {
         new DateParser3(),
         new DateParser4(),
         new DateParser5(),
-        new DateParser6(),
-        new DateParser7(),
-        new DateParser8()
+        new DateParser6()
     );
 
     private DateUtils() {

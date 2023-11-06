@@ -12,8 +12,7 @@ public final class BinaryUtils {
 
     // task 7
 
-    // содержит не менее 3 символов, причем третий символ равен 0
-    public static boolean regex1(String binaryString) {
+    public static boolean doesContainsAtLeast3SymbolsAndNullIsThird(String binaryString) {
         if (StringUtils.isBlank(binaryString)) {
             throw new IllegalArgumentException(NULL_MESSAGE);
         }
@@ -21,8 +20,7 @@ public final class BinaryUtils {
         return pattern.matcher(binaryString).find();
     }
 
-    // начинается и заканчивается одним и тем же символом
-    public static boolean regex2(String binaryString) {
+    public static boolean doesStartAndEndWithTheSameSymbol(String binaryString) {
         if (StringUtils.isBlank(binaryString)) {
             throw new IllegalArgumentException(NULL_MESSAGE);
         }
@@ -30,8 +28,7 @@ public final class BinaryUtils {
         return pattern.matcher(binaryString).find();
     }
 
-    // длина не менее 1 и не более 3
-    public static boolean regex3(String binaryString) {
+    public static boolean isLengthMoreThan1AndLessThan4(String binaryString) {
         if (StringUtils.isBlank(binaryString)) {
             throw new IllegalArgumentException(NULL_MESSAGE);
         }
@@ -41,8 +38,7 @@ public final class BinaryUtils {
 
     // task 8
 
-    // нет последовательных 1
-    public static boolean regex4(String binaryString) {
+    public static boolean doesNotContainConsecutiveOnes(String binaryString) {
         if (StringUtils.isBlank(binaryString)) {
             throw new IllegalArgumentException(NULL_MESSAGE);
         }
@@ -50,8 +46,7 @@ public final class BinaryUtils {
         return pattern.matcher(binaryString).find();
     }
 
-    // содержит не менее двух 0 и не более одной 1
-    public static boolean regex5(String binaryString) {
+    public static boolean doesContainAtLeastTwoZerosAndLessThanTwoOnes(String binaryString) {
         if (StringUtils.isBlank(binaryString)) {
             throw new IllegalArgumentException(NULL_MESSAGE);
         }
@@ -59,8 +54,7 @@ public final class BinaryUtils {
         return pattern.matcher(binaryString).find();
     }
 
-    //любая строка, кроме 11 или 111
-    public static boolean regex6(String binaryString) {
+    public static boolean isNotTwoOrThreeConsecutiveOnes(String binaryString) {
         if (StringUtils.isBlank(binaryString)) {
             throw new IllegalArgumentException(NULL_MESSAGE);
         }
@@ -68,11 +62,35 @@ public final class BinaryUtils {
         return pattern.matcher(binaryString).find();
     }
 
-    public static boolean regex7(String binaryString) {
+    public static boolean isLengthOdd(String binaryString) {
         if (StringUtils.isBlank(binaryString)) {
             throw new IllegalArgumentException(NULL_MESSAGE);
         }
-        final Pattern pattern = Pattern.compile("^(10)*1?$");
+        final Pattern pattern = Pattern.compile("^(0|1)((00)|(01)|(10)|(11))*$");
+        return pattern.matcher(binaryString).find();
+    }
+
+    public static boolean isEveryOddSymbolOne(String binaryString) {
+        if (StringUtils.isBlank(binaryString)) {
+            throw new IllegalArgumentException(NULL_MESSAGE);
+        }
+        final Pattern pattern = Pattern.compile("^1(0$|1$|(01)|(11)$)*$");
+        return pattern.matcher(binaryString).find();
+    }
+
+    public static boolean isCountOfZerosMultipleOfThree(String binaryString) {
+        if (StringUtils.isBlank(binaryString)) {
+            throw new IllegalArgumentException(NULL_MESSAGE);
+        }
+        final Pattern pattern = Pattern.compile("^(1*01*01*01*)+$");
+        return pattern.matcher(binaryString).find();
+    }
+
+    public static boolean doesStartWithZeroAndHaveOddLengthOrStartWithOneAndHaveEvenLength(String binaryString) {
+        if (StringUtils.isBlank(binaryString)) {
+            throw new IllegalArgumentException(NULL_MESSAGE);
+        }
+        final Pattern pattern = Pattern.compile("^(0((00)|(01)|(10)|(11))*|1([01])((00)|(01)|(10)|(11))*)$");
         return pattern.matcher(binaryString).find();
     }
 
