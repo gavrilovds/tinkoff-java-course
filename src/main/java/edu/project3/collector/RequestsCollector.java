@@ -2,26 +2,26 @@ package edu.project3.collector;
 
 import edu.project3.model.FormatterComponent;
 import edu.project3.model.HttpStatusCode;
+import edu.project3.model.LogSourceWrapper;
 import edu.project3.model.NginxLog;
 import edu.project3.model.Response;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RequestsCollector implements LogStatsCollector {
+public class RequestsCollector extends LogStatsCollector {
 
     @Override
-    public FormatterComponent collect(List<NginxLog> logs) {
-        List<String> lines = getStatsLines(logs);
-
+    public FormatterComponent collect(LogSourceWrapper logWrapper) {
         return FormatterComponent.builder()
             .header("Коды ответа")
             .tableHeaders(List.of("Код", "Имя", "Количество"))
-            .lines(lines)
+            .lines(getStatsLines(logWrapper))
             .build();
     }
 
-    private List<String> getStatsLines(List<NginxLog> logs) {
-        return logs.stream()
+    @Override
+    protected List<String> getStatsLines(LogSourceWrapper logWrapper) {
+        return logWrapper.logs().stream()
             .map(NginxLog::response)
             .collect(Collectors.collectingAndThen(
                 Collectors.groupingBy(Response::statusCode, Collectors.counting()),

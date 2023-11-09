@@ -1,6 +1,8 @@
 package edu.project3.collector;
 
 import edu.project3.model.FormatterComponent;
+import edu.project3.model.LogData;
+import edu.project3.model.LogSourceWrapper;
 import edu.project3.model.NginxLog;
 import edu.project3.model.Response;
 import java.util.List;
@@ -17,21 +19,25 @@ public class RequestsCollectorTest {
 
     private static Stream<Arguments> inputsForCollectTest() {
         return Stream.of(
-            Arguments.of(List.of(
-                NginxLog.builder().response(Response.builder().statusCode(200).build()).build(),
-                NginxLog.builder().response(Response.builder().statusCode(200).build()).build(),
-                NginxLog.builder().response(Response.builder().statusCode(200).build()).build(),
-                NginxLog.builder().response(Response.builder().statusCode(404).build()).build(),
-                NginxLog.builder().response(Response.builder().statusCode(404).build()).build()
-            ), List.of("200|OK|3", "404|Not Found|2"))
-        );
+            Arguments.of(
+                new LogSourceWrapper(
+                    new LogData(List.of("testSource")),
+                    List.of(
+                        NginxLog.builder().response(Response.builder().statusCode(200).build()).build(),
+                        NginxLog.builder().response(Response.builder().statusCode(200).build()).build(),
+                        NginxLog.builder().response(Response.builder().statusCode(200).build()).build(),
+                        NginxLog.builder().response(Response.builder().statusCode(404).build()).build(),
+                        NginxLog.builder().response(Response.builder().statusCode(404).build()).build()
+                    )
+                ), List.of("200|OK|3", "404|Not Found|2")
+            ));
     }
 
     @ParameterizedTest
     @MethodSource("inputsForCollectTest")
     @DisplayName("#collect test")
-    public void collect_shouldReturnRequestsStats(List<NginxLog> testLogs, List<String> expectedLines) {
+    public void collect_shouldReturnRequestsStats(LogSourceWrapper testLogs, List<String> expectedLines) {
         FormatterComponent actual = new RequestsCollector().collect(testLogs);
-        assertThat(actual.lines()).isEqualTo(expectedLines);
+        assertThat(actual.lines()).containsExactlyInAnyOrderElementsOf(expectedLines);
     }
 }

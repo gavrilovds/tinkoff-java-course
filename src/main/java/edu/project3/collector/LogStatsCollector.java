@@ -1,10 +1,12 @@
 package edu.project3.collector;
 
 import edu.project3.model.FormatterComponent;
-import edu.project3.model.NginxLog;
+import edu.project3.model.LogSourceWrapper;
 import java.util.List;
 
-public interface LogStatsCollector {
+public abstract class LogStatsCollector {
 
-    FormatterComponent collect(List<NginxLog> logs);
+    public abstract FormatterComponent collect(LogSourceWrapper logWrapper);
+
+    protected abstract List<String> getStatsLines(LogSourceWrapper logWrapper);
 }

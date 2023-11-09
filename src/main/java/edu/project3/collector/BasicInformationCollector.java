@@ -1,17 +1,51 @@
 package edu.project3.collector;
 
 import edu.project3.model.FormatterComponent;
+import edu.project3.model.LogSourceWrapper;
 import edu.project3.model.NginxLog;
+import edu.project3.model.Response;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class BasicInformationCollector implements LogStatsCollector {
+public class BasicInformationCollector extends LogStatsCollector {
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     @Override
-    public FormatterComponent collect(List<NginxLog> logs) {
+    public FormatterComponent collect(LogSourceWrapper logWrapper) {
         return FormatterComponent.builder()
             .header("Общая информация")
             .tableHeaders(List.of("Метрика", "Значение"))
-            .lines(null)
+            .lines(getStatsLines(logWrapper))
             .build();
+    }
+
+    @Override
+    protected List<String> getStatsLines(LogSourceWrapper logWrapper) {
+        StringBuilder metaData = new StringBuilder();
+        metaData.append("Файл(-ы)|");
+        for (String source : logWrapper.logData().sources()) {
+            metaData.append("'").append(source).append("'");
+        }
+        metaData
+            .append("\n")
+            .append("Начальная дата|")
+            .append(logWrapper.logData().from() == null ? "-" : DATE_FORMATTER.format(logWrapper.logData().from()))
+            .append("\n")
+            .append("Конечная дата|")
+            .append(logWrapper.logData().to() == null ? "-" : DATE_FORMATTER.format(logWrapper.logData().to()))
+            .append("\n")
+            .append("Количество запросов|")
+            .append(logWrapper.logs().size())
+            .append("\n")
+            .append("Средний размер ответа|")
+            .append(getAvgResponseSize(logWrapper.logs()))
+            .append("b");
+        return List.of(metaData.toString().split("\n"));
+    }
+
+    private double getAvgResponseSize(List<NginxLog> logs) {
+        double total = logs.stream().map(NginxLog::response).mapToDouble(Response::bodyBytesSend).sum();
+        return total / logs.size();
     }
 }

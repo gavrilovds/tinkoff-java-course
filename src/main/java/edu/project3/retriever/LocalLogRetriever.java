@@ -1,5 +1,6 @@
 package edu.project3.retriever;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocalLogRetriever implements LogRetriever {
@@ -12,6 +13,8 @@ public class LocalLogRetriever implements LogRetriever {
 
     @Override
     public List<String> retrieveLogs() {
-        return null;
+        List<String> logs = new ArrayList<>();
+
+        return logs;
     }
 }
