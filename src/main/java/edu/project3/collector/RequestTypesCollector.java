@@ -9,15 +9,13 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class RequestedResourcesCollector extends LogStatsCollector {
-
-    private static final int RESOURCES_LIMIT = 10;
+public class RequestTypesCollector extends LogStatsCollector {
 
     @Override
     public FormatterComponent collect(LogSourceWrapper logWrapper) {
         return FormatterComponent.builder()
-            .header(String.format("%d самых частозапрашиваемых ресурсов", RESOURCES_LIMIT))
-            .tableHeaders(List.of("Ресурс", "Количество запросов"))
+            .header("Типы запроса")
+            .tableHeaders(List.of("Запрос", "Количество"))
             .lines(getStatsLines(logWrapper))
             .build();
     }
@@ -26,15 +24,13 @@ public class RequestedResourcesCollector extends LogStatsCollector {
     protected List<String> getStatsLines(LogSourceWrapper logWrapper) {
         return logWrapper.logs().stream()
             .map(NginxLog::request)
-            .map(Request::resource)
-            .map(str -> str.substring(str.lastIndexOf('/')))
+            .map(Request::type)
             .collect(Collectors.collectingAndThen(
                 Collectors.groupingBy(Function.identity(), Collectors.counting()),
                 map -> map.entrySet().stream()
                     .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                    .map(entry -> "\'" + entry.getKey() + "\'" + "|" + entry.getValue())
-                    .limit(RESOURCES_LIMIT)
-                    .toList()
+                    .map(entry -> entry.getKey() + "|" + entry.getValue())
+                    .collect(Collectors.toList())
             ));
     }
 }
