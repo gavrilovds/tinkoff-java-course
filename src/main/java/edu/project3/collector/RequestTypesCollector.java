@@ -1,5 +1,6 @@
 package edu.project3.collector;
 
+import edu.project3.filter.LogFilter;
 import edu.project3.model.FormatterComponent;
 import edu.project3.model.LogSourceWrapper;
 import edu.project3.model.NginxLog;
@@ -10,6 +11,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class RequestTypesCollector extends LogStatsCollector {
+
+    public RequestTypesCollector(LogFilter logFilter) {
+        super(logFilter);
+    }
 
     @Override
     public FormatterComponent collect(LogSourceWrapper logWrapper) {
@@ -23,6 +28,7 @@ public class RequestTypesCollector extends LogStatsCollector {
     @Override
     protected List<String> getStatsLines(LogSourceWrapper logWrapper) {
         return logWrapper.logs().stream()
+            .filter(log -> logFilter.hasPassedFilter(log))
             .map(NginxLog::request)
             .map(Request::type)
             .collect(Collectors.collectingAndThen(

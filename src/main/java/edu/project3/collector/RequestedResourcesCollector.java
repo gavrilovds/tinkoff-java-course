@@ -1,5 +1,6 @@
 package edu.project3.collector;
 
+import edu.project3.filter.LogFilter;
 import edu.project3.model.FormatterComponent;
 import edu.project3.model.LogSourceWrapper;
 import edu.project3.model.NginxLog;
@@ -13,6 +14,10 @@ public class RequestedResourcesCollector extends LogStatsCollector {
 
     private static final int RESOURCES_LIMIT = 10;
 
+    public RequestedResourcesCollector(LogFilter logFilter) {
+        super(logFilter);
+    }
+
     @Override
     public FormatterComponent collect(LogSourceWrapper logWrapper) {
         return FormatterComponent.builder()
@@ -25,6 +30,7 @@ public class RequestedResourcesCollector extends LogStatsCollector {
     @Override
     protected List<String> getStatsLines(LogSourceWrapper logWrapper) {
         return logWrapper.logs().stream()
+            .filter(log -> logFilter.hasPassedFilter(log))
             .map(NginxLog::request)
             .map(Request::resource)
             .map(str -> str.substring(str.lastIndexOf('/')))

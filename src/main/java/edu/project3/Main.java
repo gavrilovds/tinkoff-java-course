@@ -1,8 +1,13 @@
 package edu.project3;
 
-public class Main {
+import edu.project3.printer.CLIPrinter;
+
+public final class Main {
+
+    private Main() {
+    }
 
     public static void main(String[] args) {
-        new LogAnalyzerApplication(args).run();
+        new LogAnalyzerApplication(args, new CLIPrinter()).run();
     }
 }

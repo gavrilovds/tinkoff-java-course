@@ -12,8 +12,8 @@ public class DateLogFilter extends LogFilter {
     public DateLogFilter(String from, String to) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
-            this.from = OffsetDateTime.parse(from, formatter);
-            this.to = OffsetDateTime.parse(to, formatter);
+            this.from = from == null ? OffsetDateTime.MIN : OffsetDateTime.parse(from, formatter);
+            this.to = to == null ? OffsetDateTime.MAX : OffsetDateTime.parse(to, formatter);
         } catch (Exception e) {
             throw new IllegalArgumentException("wrong date format, use \"yyyy-MM-dd\"");
         }

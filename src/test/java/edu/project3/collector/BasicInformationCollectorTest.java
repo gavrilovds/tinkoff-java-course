@@ -1,6 +1,8 @@
 package edu.project3.collector;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import edu.project3.filter.DateLogFilter;
+import edu.project3.filter.LogFilter;
 import edu.project3.model.FormatterComponent;
 import edu.project3.model.LogData;
 import edu.project3.model.LogSourceWrapper;
@@ -25,8 +27,8 @@ public class BasicInformationCollectorTest {
                 new LogSourceWrapper(
                     new LogData(List.of("test.log")),
                     List.of(
-                        NginxLog.builder().response(Response.builder().bodyBytesSend(200).build()).build(),
-                        NginxLog.builder().response(Response.builder().bodyBytesSend(400).build()).build()
+                        NginxLog.builder().response(Response.builder().bodyBytesSend(200).build()).timeLocal(OffsetDateTime.now()).build(),
+                        NginxLog.builder().response(Response.builder().bodyBytesSend(400).build()).timeLocal(OffsetDateTime.now()).build()
                     )
                 ),
                 List.of(
@@ -41,8 +43,8 @@ public class BasicInformationCollectorTest {
                 new LogSourceWrapper(
                     new LogData(List.of("test1.log", "test2.log"), OffsetDateTime.now(), OffsetDateTime.now()),
                     List.of(
-                        NginxLog.builder().response(Response.builder().bodyBytesSend(200).build()).build(),
-                        NginxLog.builder().response(Response.builder().bodyBytesSend(400).build()).build()
+                        NginxLog.builder().response(Response.builder().bodyBytesSend(200).build()).timeLocal(OffsetDateTime.now()).build(),
+                        NginxLog.builder().response(Response.builder().bodyBytesSend(400).build()).timeLocal(OffsetDateTime.now()).build()
                     )
                 ),
                 List.of(
@@ -60,7 +62,7 @@ public class BasicInformationCollectorTest {
     @MethodSource("inputsForCollectTest")
     @DisplayName("#collect test")
     public void collect_shouldReturnRequestsStats(LogSourceWrapper testLogs, List<String> expectedLines) {
-        FormatterComponent actual = new BasicInformationCollector().collect(testLogs);
+        FormatterComponent actual = new BasicInformationCollector(LogFilter.link(new DateLogFilter(null, null))).collect(testLogs);
         assertThat(actual.lines()).containsExactlyInAnyOrderElementsOf(expectedLines);
     }
 }

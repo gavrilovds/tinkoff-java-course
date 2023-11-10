@@ -1,5 +1,6 @@
 package edu.project3.collector;
 
+import edu.project3.filter.LogFilter;
 import edu.project3.model.FormatterComponent;
 import edu.project3.model.LogSourceWrapper;
 import edu.project3.model.NginxLog;
@@ -10,6 +11,10 @@ import java.util.List;
 public class BasicInformationCollector extends LogStatsCollector {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    public BasicInformationCollector(LogFilter logFilter) {
+        super(logFilter);
+    }
 
     @Override
     public FormatterComponent collect(LogSourceWrapper logWrapper) {
