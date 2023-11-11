@@ -16,6 +16,8 @@ import edu.project3.model.FormatType;
 import edu.project3.model.LogData;
 import edu.project3.model.LogSourceWrapper;
 import edu.project3.printer.Printer;
+import edu.project3.retriever.LocalLogRetriever;
+import edu.project3.retriever.UrlLogRetriever;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,7 +64,8 @@ public class LogAnalyzerApplication {
         List<String> lines = new ArrayList<>();
         String[] paths = arguments.get(0).value().split(" ");
         for (String path : paths) {
-            lines.addAll(RetrieverHelper.getCorrectRetriever(path).retrieveLogs());
+            lines.addAll(path.startsWith("http") ? new UrlLogRetriever(path).retrieveLogs()
+                : new LocalLogRetriever(path).retrieveLogs());
         }
         logSourceWrapper =
             new LogSourceWrapper(new LogData(List.of(paths), from, to), lines.stream().map(LogParser::parseLog).collect(

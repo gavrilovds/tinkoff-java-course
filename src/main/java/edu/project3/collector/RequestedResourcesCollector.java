@@ -38,7 +38,7 @@ public class RequestedResourcesCollector extends LogStatsCollector {
                 Collectors.groupingBy(Function.identity(), Collectors.counting()),
                 map -> map.entrySet().stream()
                     .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                    .map(entry -> "\'" + entry.getKey() + "\'" + "|" + entry.getValue())
+                    .map(entry -> "'" + entry.getKey() + "'" + "|" + entry.getValue())
                     .limit(RESOURCES_LIMIT)
                     .toList()
             ));

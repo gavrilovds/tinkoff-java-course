@@ -41,7 +41,7 @@ public class BasicInformationCollector extends LogStatsCollector {
             .append(logWrapper.logData().to() == null ? "-" : DATE_FORMATTER.format(logWrapper.logData().to()))
             .append("\n")
             .append("Количество запросов|")
-            .append(logWrapper.logs().size())
+            .append(getTotalAmountOfLogs(logWrapper.logs()))
             .append("\n")
             .append("Средний размер ответа|")
             .append(getAvgResponseSize(logWrapper.logs()))
@@ -50,7 +50,12 @@ public class BasicInformationCollector extends LogStatsCollector {
     }
 
     private double getAvgResponseSize(List<NginxLog> logs) {
-        double total = logs.stream().map(NginxLog::response).mapToDouble(Response::bodyBytesSend).sum();
+        double total = logs.stream().filter(log -> logFilter.hasPassedFilter(log)).map(NginxLog::response)
+            .mapToDouble(Response::bodyBytesSend).sum();
         return total / logs.size();
+    }
+
+    private long getTotalAmountOfLogs(List<NginxLog> logs) {
+        return logs.stream().filter(log -> logFilter.hasPassedFilter(log)).count();
     }
 }
