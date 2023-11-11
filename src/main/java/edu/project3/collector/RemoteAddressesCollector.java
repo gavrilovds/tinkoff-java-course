@@ -19,7 +19,7 @@ public class RemoteAddressesCollector extends LogStatsCollector {
     @Override
     public FormatterComponent collect(LogSourceWrapper logWrapper) {
         return FormatterComponent.builder()
-            .header("%d самых частозапрашиваемых адресов".formatted(ADDRESSES_LIMIT))
+            .header("%d самых часто запрашиваемых адресов".formatted(ADDRESSES_LIMIT))
             .tableHeaders(List.of("Адрес", "Количество"))
             .lines(getStatsLines(logWrapper))
             .build();

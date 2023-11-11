@@ -21,7 +21,7 @@ public class RequestedResourcesCollector extends LogStatsCollector {
     @Override
     public FormatterComponent collect(LogSourceWrapper logWrapper) {
         return FormatterComponent.builder()
-            .header("%d самых частозапрашиваемых ресурсов".formatted(RESOURCES_LIMIT))
+            .header("%d самых часто запрашиваемых ресурсов".formatted(RESOURCES_LIMIT))
             .tableHeaders(List.of("Ресурс", "Количество запросов"))
             .lines(getStatsLines(logWrapper))
             .build();
