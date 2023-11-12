@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullSource;
 import static org.assertj.core.api.Assertions.*;
@@ -51,14 +50,14 @@ public class YearUtilsTest {
     @MethodSource("inputsForBasicTestGetAllFridaysThe13thOfYear")
     @DisplayName("#getAllFridaysThe13thOfYear basic test")
     public void getAllFridaysThe13thOfYear_shouldReturnListOfAllFridaysThe13th(int testYear, List<LocalDate> expected) {
-        List<LocalDate> actual = YearUtils.getAllFridaysThe13thOfYear(testYear);
+        List<LocalDate> actual = YearUtils.getAllFridays13thOfYear(testYear);
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     @DisplayName("#getAllFridaysThe13thOfYear invalid input test")
     public void getAllFridaysThe13thOfYear_shouldThrowException_whenInputIsInvalid() {
-        assertThatThrownBy(() -> YearUtils.getAllFridaysThe13thOfYear(-12)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> YearUtils.getAllFridays13thOfYear(-12)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest
@@ -68,7 +67,7 @@ public class YearUtilsTest {
         LocalDate testDate,
         LocalDate expected
     ) {
-        LocalDate actual = YearUtils.getTheClosestNextFridayThe13th(testDate);
+        LocalDate actual = YearUtils.getClosestNextFriday13th(testDate);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -76,7 +75,7 @@ public class YearUtilsTest {
     @NullSource
     @DisplayName("#getTheClosestNextFridayThe13th null test")
     public void getTheClosestNextFridayThe13th_shouldThrowException_whenInputParameterIsNull(LocalDate testDate) {
-        assertThatThrownBy(() -> YearUtils.getTheClosestNextFridayThe13th(testDate)).isInstanceOf(
+        assertThatThrownBy(() -> YearUtils.getClosestNextFriday13th(testDate)).isInstanceOf(
             IllegalArgumentException.class);
     }
 }

@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public final class ComputerClubUtils {
 
@@ -16,7 +17,7 @@ public final class ComputerClubUtils {
     private ComputerClubUtils() {
     }
 
-    public static Duration getAverageSessionDuration(List<String> sessions) {
+    public static String getAverageSessionDuration(List<String> sessions) {
         if (sessions == null || sessions.isEmpty()) {
             throw new IllegalArgumentException("Empty session list");
         }
@@ -31,6 +32,6 @@ public final class ComputerClubUtils {
                 throw new IllegalArgumentException("Wrong session date format");
             }
         }
-        return Duration.ofSeconds(totalDuration.getSeconds() / sessions.size());
+        return DurationFormatUtils.formatDuration(totalDuration.toMillis() / sessions.size(), "HHч mmм");
     }
 }

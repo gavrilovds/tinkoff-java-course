@@ -13,12 +13,12 @@ public class ComputerClubUtilsTest {
     @Test
     @DisplayName("#getAverageSessionDuration basic test")
     public void getAverageSessionDuration_shouldReturnAverageSessionDuration() {
-        Duration actual = ComputerClubUtils.getAverageSessionDuration(List.of(
+        String actual = ComputerClubUtils.getAverageSessionDuration(List.of(
             "2022-03-12, 20:20 - 2022-03-12, 23:50",
             "2022-04-01, 21:30 - 2022-04-02, 01:20"
         ));
 
-        assertThat(actual).hasSeconds(13200); // 3 h 40 m
+        assertThat(actual).isEqualTo("03ч 40м"); // 3 h 40 m
     }
 
     @Test

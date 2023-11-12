@@ -14,7 +14,7 @@ public final class YearUtils {
     private YearUtils() {
     }
 
-    public static List<LocalDate> getAllFridaysThe13thOfYear(int year) {
+    public static List<LocalDate> getAllFridays13thOfYear(int year) {
         if (year <= 0) {
             throw new IllegalArgumentException("year should be > 0");
         }
@@ -29,7 +29,7 @@ public final class YearUtils {
         return result;
     }
 
-    public static LocalDate getTheClosestNextFridayThe13th(LocalDate dateFrom) {
+    public static LocalDate getClosestNextFriday13th(LocalDate dateFrom) {
         if (dateFrom == null) {
             throw new IllegalArgumentException("dateFrom should not be null");
         }
