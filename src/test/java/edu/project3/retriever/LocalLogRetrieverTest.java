@@ -10,7 +10,7 @@ public class LocalLogRetrieverTest {
     @Test
     @DisplayName("#retrieveLogs test")
     public void retrieveLogs_shouldReturnListWhichContainsAllLinesOfLogFile() {
-        List<String> lines = new LocalLogRetriever("logs/generated_logs/log1.txt").retrieveLogs();
+        List<String> lines = new LocalLogRetriever("generated_logs/log1.txt").retrieveLogs();
         assertThat(lines).hasSize(252);
     }
 }

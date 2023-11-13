@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 public class LocalLogRetriever implements LogRetriever {
 
-    private static final String LOGS_DIRECTORY = "logs";
+    private static final String LOGS_DIRECTORY = "logs/";
     private final String path;
 
     public LocalLogRetriever(String path) {
@@ -27,7 +27,7 @@ public class LocalLogRetriever implements LogRetriever {
             Integer.MAX_VALUE,
             FileVisitOption.FOLLOW_LINKS
         )) {
-            PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:" + path);
+            PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:" + LOGS_DIRECTORY + path);
             pathStream
                 .filter(Files::isRegularFile)
                 .filter(pathMatcher::matches)

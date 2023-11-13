@@ -39,13 +39,13 @@ public class LogAnalyzerApplication {
     }
 
     public void run() {
-        initAllParameters(arguments);
+        initAllParameters();
         initLogFilter();
         initCollectors();
         printStats();
     }
 
-    private void initAllParameters(List<Argument> arguments) {
+    private void initAllParameters() {
         for (Argument argument : arguments) {
             switch (argument.type()) {
                 case FORMAT -> {
