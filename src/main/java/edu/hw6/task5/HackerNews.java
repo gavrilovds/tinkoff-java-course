@@ -14,13 +14,11 @@ public class HackerNews {
     private static final Pattern TITLE_PATTERN = Pattern.compile("\"title\":\"([^\"]+)\"");
 
     public long[] getHackerNewsTopStories() {
-        try {
+        try (HttpClient client = newHttpClient()) {
             var request =
                 HttpRequest.newBuilder().GET().uri(new URI("https://hacker-news.firebaseio.com/v0/topstories.json"))
                     .build();
-            HttpClient client = newHttpClient();
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            client.close();
             return convertJsonToLongArray(response.body());
         } catch (Exception e) {
             return new long[0];
@@ -28,12 +26,10 @@ public class HackerNews {
     }
 
     public String getNewsTitle(long newsId) {
-        try {
+        try (HttpClient client = newHttpClient()) {
             var request = HttpRequest.newBuilder().GET()
                 .uri(new URI("https://hacker-news.firebaseio.com/v0/item/" + newsId + ".json")).build();
-            HttpClient client = newHttpClient();
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            client.close();
             return getNewsTitleFromJson(response.body());
         } catch (Exception e) {
             return "";
