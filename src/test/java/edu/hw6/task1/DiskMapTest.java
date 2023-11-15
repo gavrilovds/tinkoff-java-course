@@ -18,9 +18,9 @@ import static org.assertj.core.api.Assertions.*;
 public class DiskMapTest {
 
     @TempDir(cleanup = CleanupMode.ALWAYS)
-    Path testDir;
-    Path storage;
-    DiskMap diskMap;
+    private Path testDir;
+    private Path storage;
+    private DiskMap diskMap;
 
     @BeforeEach
     public void initStorage() {
