@@ -68,22 +68,11 @@ public class ArgsResolver {
     }
 
     private boolean isArg(String arg) {
-        switch (arg) {
-            case "--format" -> {
-                currentArg = ArgumentType.FORMAT;
-                return true;
-            }
-            case "--to" -> {
-                currentArg = ArgumentType.TO;
-                return true;
-            }
-            case "--from" -> {
-                currentArg = ArgumentType.FROM;
-                return true;
-            }
-            default -> {
-                return false;
-            }
+        try {
+            currentArg = ArgumentType.findByArgument(arg);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
         }
     }
 }

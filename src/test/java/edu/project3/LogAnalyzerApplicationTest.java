@@ -14,6 +14,6 @@ public class LogAnalyzerApplicationTest {
             "logs/generated_logs/log1.txt",
             "logs/generated_logs/log2.txt",
             "--format",
-            "markdown", "--from", "2023-03-22", "--to", "2023-03-26" }, new CLIPrinter()).run());
+            "markdown", "--from", "2023-03-22", "--to", "2023-03-26" }).run());
     }
 }

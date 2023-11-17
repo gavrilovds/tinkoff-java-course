@@ -14,4 +14,13 @@ public enum ArgumentType {
     }
 
     private final String argument;
+
+    public static ArgumentType findByArgument(String argument) throws IllegalArgumentException {
+        for (ArgumentType type : values()) {
+            if (type.getArgument().equals(argument)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Invalid argument: " + argument);
+    }
 }
