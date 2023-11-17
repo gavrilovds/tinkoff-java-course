@@ -2,8 +2,6 @@ package edu.project3.retriever.selector;
 
 import edu.project3.retriever.LocalLogRetriever;
 import edu.project3.retriever.LogRetriever;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class LocalRetrieverSelector extends RetrieverSelector {
