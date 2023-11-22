@@ -1,17 +1,16 @@
 package edu.hw6.task1;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,101 +19,68 @@ public class DiskMap implements Map<String, String> {
     private static final String DELIMITER = ":";
     private final Path path;
 
+    @SneakyThrows
     public DiskMap(Path path) {
         this.path = path;
-        try {
-            Files.createFile(path);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Files.createFile(path);
     }
 
     @Override
+    @SneakyThrows
     public int size() {
-        try {
-            return Files.readAllLines(path).size();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return Files.readAllLines(path).size();
     }
 
     @Override
+    @SneakyThrows
     public boolean isEmpty() {
-        try {
-            return Files.readAllLines(path).isEmpty();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return Files.readAllLines(path).isEmpty();
     }
 
     @Override
+    @SneakyThrows
     public boolean containsKey(Object key) {
-        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.split(DELIMITER)[0].equals(key)) {
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        try (Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8)) {
+            return lines.anyMatch(line -> line.split(DELIMITER)[0].equals(key));
         }
-        return false;
     }
 
     @Override
+    @SneakyThrows
     public boolean containsValue(Object value) {
-        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.split(DELIMITER)[1].equals(value)) {
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        try (Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8)) {
+            return lines.anyMatch(line -> line.split(DELIMITER)[1].equals(value));
         }
-        return false;
     }
 
     @Override
+    @SneakyThrows
     public String get(Object key) {
-        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] keyValuePair = line.split(DELIMITER);
-                if (keyValuePair[0].equals(key)) {
-                    return keyValuePair[1];
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        try (Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8)) {
+            return lines.map(line -> line.split(DELIMITER))
+                .filter(keyValuePair -> keyValuePair.length > 1 && keyValuePair[0].equals(key))
+                .findFirst()
+                .map(keyValuePair -> keyValuePair[1])
+                .orElse(null);
         }
-        return null;
     }
 
     @Nullable
     @Override
+    @SneakyThrows
     public String put(String key, String value) {
         String lineToWrite = key + DELIMITER + value + "\n";
-        try {
-            Files.writeString(path, lineToWrite, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        Files.writeString(path, lineToWrite, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
         return lineToWrite;
     }
 
     @Override
+    @SneakyThrows
     public String remove(Object key) {
-        try {
-            List<String> allLines = Files.readAllLines(path);
-            allLines =
-                allLines.stream().filter(line -> !line.split(DELIMITER)[0].equals(key)).collect(Collectors.toList());
-            Files.write(path, allLines, StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        List<String> allLines = Files.readAllLines(path);
+        allLines =
+            allLines.stream().filter(line -> !line.split(DELIMITER)[0].equals(key)).collect(Collectors.toList());
+        Files.write(path, allLines, StandardCharsets.UTF_8);
         return (String) key;
     }
 
@@ -126,59 +92,44 @@ public class DiskMap implements Map<String, String> {
     }
 
     @Override
+    @SneakyThrows
     public void clear() {
-        try {
-            Files.writeString(path, "", StandardOpenOption.TRUNCATE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Files.writeString(path, "", StandardOpenOption.TRUNCATE_EXISTING);
     }
 
     @NotNull
     @Override
+    @SneakyThrows
     public Set<String> keySet() {
-        Set<String> keys = new HashSet<>();
-        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] keyValuePair = line.split(DELIMITER);
-                keys.add(keyValuePair[0]);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        try (Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8)) {
+            return lines.map(line -> line.split(DELIMITER))
+                .filter(keyValuePair -> keyValuePair.length > 0)
+                .map(keyValuePair -> keyValuePair[0])
+                .collect(Collectors.toSet());
         }
-        return keys;
     }
 
     @NotNull
     @Override
+    @SneakyThrows
     public Collection<String> values() {
-        Set<String> values = new HashSet<>();
-        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] keyValuePair = line.split(DELIMITER);
-                values.add(keyValuePair[1]);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        try (Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8)) {
+            return lines.map(line -> line.split(DELIMITER))
+                .filter(keyValuePair -> keyValuePair.length > 1)
+                .map(keyValuePair -> keyValuePair[1])
+                .collect(Collectors.toSet());
         }
-        return values;
     }
 
     @NotNull
     @Override
+    @SneakyThrows
     public Set<Entry<String, String>> entrySet() {
-        Set<Entry<String, String>> keyValueEntries = new HashSet<>();
-        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] keyValuePair = line.split(DELIMITER);
-                keyValueEntries.add(Map.entry(keyValuePair[0], keyValuePair[1]));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        try (Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8)) {
+            return lines.map(line -> line.split(DELIMITER))
+                .filter(keyValuePair -> keyValuePair.length > 1)
+                .map(keyValuePair -> Map.entry(keyValuePair[0], keyValuePair[1]))
+                .collect(Collectors.toSet());
         }
-        return keyValueEntries;
     }
 }

@@ -1,20 +1,21 @@
 package edu.hw6.task2;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 
-public final class FileUtils {
+@UtilityClass
+public class FileUtils {
 
     private static final String CLONE_SUFFIX = " – копия";
 
-    private FileUtils() {
-    }
-
+    @SneakyThrows
     public static void cloneFile(Path path) {
-        String fileName = path.getFileName().toString();
-        String fileExtension = fileName.substring(fileName.indexOf('.'));
-        fileName = fileName.substring(0, fileName.indexOf('.'));
+        String fileNameWithExtension = path.getFileName().toString();
+        int extensionPointIndex = fileNameWithExtension.indexOf('.');
+        String fileName = fileNameWithExtension.substring(0, extensionPointIndex);
+        String fileExtension = fileNameWithExtension.substring(extensionPointIndex);
         boolean isFileCreated = false;
         int currentCopy = 1;
         while (!isFileCreated) {
@@ -23,13 +24,12 @@ public final class FileUtils {
             if (Files.exists(Path.of(newFileName))) {
                 currentCopy++;
             } else {
-                try {
-                    Files.copy(path, Path.of(newFileName));
-                    isFileCreated = true;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                Files.copy(path, Path.of(newFileName));
+                return;
             }
         }
     }
 }
+
+
+

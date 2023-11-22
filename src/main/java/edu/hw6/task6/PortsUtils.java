@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.util.Map;
+import lombok.experimental.UtilityClass;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public final class PortsUtils {
+@UtilityClass
+public class PortsUtils {
 
     private static final int FIRST_SCANNED_PORT = 0;
     private static final int LAST_SCANNED_PORT = 49151;
@@ -17,9 +19,6 @@ public final class PortsUtils {
         Map.entry(5353, "Multicast DNS (MDNS)"),
         Map.entry(7000, "Azureus BitTorrent")
     );
-
-    private PortsUtils() {
-    }
 
     public static void scanPorts() {
         log.info(LOG_FORMAT.formatted("Протокол", "Порт", "Сервис"));

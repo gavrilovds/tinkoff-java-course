@@ -17,7 +17,7 @@ public class FileUtilsTest {
         FileUtils.cloneFile(originalFile);
         FileUtils.cloneFile(originalFile);
         assertThat(testDir)
-            .isDirectoryContaining(path -> path.getFileName().toString().endsWith("test – копия.txt"))
+            .isDirectoryContaining(path -> path.getFileName().toString().endsWith("test – копия (2).txt"))
             .isDirectoryContaining(path -> path.getFileName().toString().endsWith("test – копия (2).txt"))
             .isDirectoryContaining(path -> path.getFileName().toString().endsWith("test.txt"));
     }

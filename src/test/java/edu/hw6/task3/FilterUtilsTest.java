@@ -79,7 +79,7 @@ public class FilterUtilsTest {
     @Test
     @DisplayName("#magicNumber test")
     public void magicNumber_shouldReturnFilteredPaths() {
-        DirectoryStream.Filter<Path> filter = FilterUtils.magicNumber((byte) 0x89, (byte) 'P', (byte) 'N', (byte) 'G');
+        DirectoryStream.Filter<Path> filter = FilterUtils.magicNumber(0x89, 'P', 'N', 'G');
         List<Path> actual = new ArrayList<>();
         try (DirectoryStream<Path> path = Files.newDirectoryStream(tempDir, filter)) {
             path.forEach(actual::add);
@@ -92,7 +92,7 @@ public class FilterUtilsTest {
     @Test
     @DisplayName("Multiple filters test")
     public void filter_shouldReturnFilteredByTwoFiltersPaths() {
-        DirectoryStream.Filter<Path> filter = FilterUtils.magicNumber((byte) 0x89, (byte) 'P', (byte) 'N', (byte) 'G')
+        DirectoryStream.Filter<Path> filter = FilterUtils.magicNumber(0x89, 'P', 'N', 'G')
             .and(FilterUtils.largerThan(3));
         List<Path> actual = new ArrayList<>();
         try (DirectoryStream<Path> path = Files.newDirectoryStream(tempDir, filter)) {

@@ -1,25 +1,27 @@
 package edu.hw6.task3;
 
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.regex.Pattern;
+import lombok.experimental.UtilityClass;
 
-public final class FilterUtils {
+@UtilityClass
+public class FilterUtils {
 
     public static final AbstractFilter REGULAR_FILE = Files::isRegularFile;
     public static final AbstractFilter READABLE = Files::isReadable;
 
-    private FilterUtils() {
-    }
-
-    public static AbstractFilter magicNumber(byte... bytes) {
+    public static AbstractFilter magicNumber(int... bytes) {
         return path -> {
-            try {
-                byte[] fileBytes = Files.readAllBytes(path);
-                return startsWith(fileBytes, bytes);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            try (InputStream inputStream = new FileInputStream(path.toFile())) {
+                for (int b : bytes) {
+                    if (b != inputStream.read()) {
+                        return false;
+                    }
+                }
             }
+            return true;
         };
     }
 
@@ -34,17 +36,5 @@ public final class FilterUtils {
 
     public static AbstractFilter regexContains(String regex) {
         return path -> Pattern.compile(regex).matcher(path.toString()).find();
-    }
-
-    private static boolean startsWith(byte[] array, byte... prefix) {
-        if (array.length < prefix.length) {
-            return false;
-        }
-        for (int i = 0; i < prefix.length; i++) {
-            if (array[i] != prefix[i]) {
-                return false;
-            }
-        }
-        return true;
     }
 }

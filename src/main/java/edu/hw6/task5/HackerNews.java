@@ -12,13 +12,12 @@ import static java.net.http.HttpClient.newHttpClient;
 public class HackerNews {
 
     private static final Pattern TITLE_PATTERN = Pattern.compile("\"title\":\"([^\"]+)\"");
+    private static final String TOP_STORIES_HOST_NAME = "https://hacker-news.firebaseio.com/v0/topstories.json";
+    private static final String NEWS_HOST_NAME = "https://hacker-news.firebaseio.com/v0/item/";
 
     public long[] getHackerNewsTopStories() {
-        try (HttpClient client = newHttpClient()) {
-            var request =
-                HttpRequest.newBuilder().GET().uri(new URI("https://hacker-news.firebaseio.com/v0/topstories.json"))
-                    .build();
-            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        try {
+            var response = getResponse(TOP_STORIES_HOST_NAME);
             return convertJsonToLongArray(response.body());
         } catch (Exception e) {
             return new long[0];
@@ -26,13 +25,22 @@ public class HackerNews {
     }
 
     public String getNewsTitle(long newsId) {
-        try (HttpClient client = newHttpClient()) {
-            var request = HttpRequest.newBuilder().GET()
-                .uri(new URI("https://hacker-news.firebaseio.com/v0/item/" + newsId + ".json")).build();
-            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        try {
+            var response = getResponse(NEWS_HOST_NAME + newsId + ".json");
             return getNewsTitleFromJson(response.body());
         } catch (Exception e) {
             return "";
+        }
+    }
+
+    private HttpResponse<String> getResponse(String stringUri) {
+        try (HttpClient client = newHttpClient()) {
+            var request =
+                HttpRequest.newBuilder().GET().uri(new URI(stringUri))
+                    .build();
+            return client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
