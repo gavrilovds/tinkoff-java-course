@@ -5,11 +5,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.SneakyThrows;
 
 public class ParallelMonteCarloApproximator extends AbstractMonteCarloApproximator {
 
-    private static final int NUMBER_OF_THREADS = 6;
+    private static final int NUMBER_OF_THREADS = 8;
 
     @Override
     @SneakyThrows
@@ -35,7 +36,7 @@ public class ParallelMonteCarloApproximator extends AbstractMonteCarloApproximat
 
     private long getCircleCount(long simulations) {
         long circleCount = 0;
-        Random random = new Random();
+        Random random = ThreadLocalRandom.current();
         for (int j = 0; j < simulations / NUMBER_OF_THREADS; j++) {
             double x = random.nextDouble();
             double y = random.nextDouble();

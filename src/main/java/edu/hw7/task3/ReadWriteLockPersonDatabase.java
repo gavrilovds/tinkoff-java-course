@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.jetbrains.annotations.Nullable;
 
 public class ReadWriteLockPersonDatabase implements PersonDatabase {
 
@@ -28,18 +27,9 @@ public class ReadWriteLockPersonDatabase implements PersonDatabase {
         readWriteLock.writeLock().lock();
         try {
             personStorage.put(person.id(), person);
-            if (!nameCache.containsKey(person.name())) {
-                nameCache.put(person.name(), new ArrayList<>());
-            }
-            if (!addressCache.containsKey(person.address())) {
-                addressCache.put(person.address(), new ArrayList<>());
-            }
-            if (!phoneNumberCache.containsKey(person.phoneNumber())) {
-                phoneNumberCache.put(person.phoneNumber(), new ArrayList<>());
-            }
-            nameCache.get(person.name()).add(person);
-            addressCache.get(person.address()).add(person);
-            phoneNumberCache.get(person.phoneNumber()).add(person);
+            nameCache.computeIfAbsent(person.name(), key -> new ArrayList<>()).add(person);
+            addressCache.computeIfAbsent(person.address(), key -> new ArrayList<>()).add(person);
+            phoneNumberCache.computeIfAbsent(person.phoneNumber(), key -> new ArrayList<>()).add(person);
         } finally {
             readWriteLock.writeLock().unlock();
         }
@@ -47,32 +37,44 @@ public class ReadWriteLockPersonDatabase implements PersonDatabase {
 
     @Override
     public void delete(int id) {
-        nameCache.remove(personStorage.get(id).name());
-        addressCache.remove(personStorage.get(id).address());
-        phoneNumberCache.remove(personStorage.get(id).phoneNumber());
-        personStorage.remove(id);
+        readWriteLock.writeLock().lock();
+        try {
+            nameCache.remove(personStorage.get(id).name());
+            addressCache.remove(personStorage.get(id).address());
+            phoneNumberCache.remove(personStorage.get(id).phoneNumber());
+            personStorage.remove(id);
+        } finally {
+            readWriteLock.writeLock().unlock();
+        }
     }
 
     @Override
-    @Nullable
     public List<Person> findByName(String name) {
         readWriteLock.readLock().lock();
         try {
-            List<Person> cachedPersons =  nameCache.get(name);
+            return nameCache.get(name);
         } finally {
             readWriteLock.readLock().unlock();
         }
     }
 
     @Override
-    @Nullable
     public List<Person> findByAddress(String address) {
-        return addressCache.get(address);
+        readWriteLock.readLock().lock();
+        try {
+            return addressCache.get(address);
+        } finally {
+            readWriteLock.readLock().unlock();
+        }
     }
 
     @Override
-    @Nullable
     public List<Person> findByPhone(String phone) {
-        return phoneNumberCache.get(phone);
+        readWriteLock.readLock().lock();
+        try {
+            return phoneNumberCache.get(phone);
+        } finally {
+            readWriteLock.readLock().unlock();
+        }
     }
 }

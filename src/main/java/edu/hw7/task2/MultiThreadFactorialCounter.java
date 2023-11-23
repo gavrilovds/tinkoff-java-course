@@ -1,11 +1,10 @@
 package edu.hw7.task2;
 
 import java.util.stream.IntStream;
+import lombok.experimental.UtilityClass;
 
-public final class MultiThreadFactorialCounter {
-
-    private MultiThreadFactorialCounter() {
-    }
+@UtilityClass
+public class MultiThreadFactorialCounter {
 
     public static int getFactorial(int num) {
         if (num <= 0) {

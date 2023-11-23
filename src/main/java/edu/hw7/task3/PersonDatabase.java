@@ -1,7 +1,6 @@
 package edu.hw7.task3;
 
 import java.util.List;
-import org.jetbrains.annotations.Nullable;
 
 public interface PersonDatabase {
 
@@ -14,5 +13,4 @@ public interface PersonDatabase {
     List<Person> findByAddress(String address);
 
     List<Person> findByPhone(String phone);
-
 }

@@ -20,24 +20,15 @@ public class SynchronizedPersonDatabase implements PersonDatabase {
     }
 
     @Override
-    public void add(Person person) {
+    public synchronized void add(Person person) {
         personStorage.put(person.id(), person);
-        if (!nameCache.containsKey(person.name())) {
-            nameCache.put(person.name(), new ArrayList<>());
-        }
-        if (!addressCache.containsKey(person.address())) {
-            addressCache.put(person.address(), new ArrayList<>());
-        }
-        if (!phoneNumberCache.containsKey(person.phoneNumber())) {
-            phoneNumberCache.put(person.phoneNumber(), new ArrayList<>());
-        }
-        nameCache.get(person.name()).add(person);
-        addressCache.get(person.address()).add(person);
-        phoneNumberCache.get(person.phoneNumber()).add(person);
+        nameCache.computeIfAbsent(person.name(), key -> new ArrayList<>()).add(person);
+        addressCache.computeIfAbsent(person.address(), key -> new ArrayList<>()).add(person);
+        phoneNumberCache.computeIfAbsent(person.phoneNumber(), key -> new ArrayList<>()).add(person);
     }
 
     @Override
-    public void delete(int id) {
+    public synchronized void delete(int id) {
         nameCache.remove(personStorage.get(id).name());
         addressCache.remove(personStorage.get(id).address());
         phoneNumberCache.remove(personStorage.get(id).phoneNumber());
@@ -45,17 +36,17 @@ public class SynchronizedPersonDatabase implements PersonDatabase {
     }
 
     @Override
-    public List<Person> findByName(String name) {
+    public synchronized List<Person> findByName(String name) {
         return nameCache.get(name);
     }
 
     @Override
-    public List<Person> findByAddress(String address) {
+    public synchronized List<Person> findByAddress(String address) {
         return addressCache.get(address);
     }
 
     @Override
-    public List<Person> findByPhone(String phone) {
+    public synchronized List<Person> findByPhone(String phone) {
         return phoneNumberCache.get(phone);
     }
 }

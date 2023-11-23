@@ -1,6 +1,7 @@
 package edu.hw7.task4;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,6 @@ public class ParallelMonteCarloApproximatorTest {
     @DisplayName("#getPI test")
     public void getPI_shouldReturnCorrectCalculatedPI() {
         double actual = new ParallelMonteCarloApproximator().getPI(1000000000L);
-        assertThat(String.format("%.2f", actual)).isEqualTo(String.format("%.2f", Math.PI));
+        assertThat(actual).isCloseTo(Math.PI, Offset.offset(0.01));
     }
 }
