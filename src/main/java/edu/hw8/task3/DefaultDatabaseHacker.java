@@ -1,97 +1,80 @@
 package edu.hw8.task3;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class DefaultDatabaseHacker implements DatabaseHacker {
+public class DefaultDatabaseHacker extends AbstractDatabaseHacker {
 
-    private static final String ALF = "qwertyuiopasdfghjklzxcvbnm0123456789";
-    private final ProductHelper productHelper;
-    private static final int MIN_PASSWORD_LENGTH = 4;
-    private static final int MAX_PASSWORD_LENGTH = 6;
+    private final Map<String, String> leakedDatabase;
+    private final Map<String, String> hackedData;
 
-    public DefaultDatabaseHacker() {
-        productHelper = new ProductHelper();
+    public DefaultDatabaseHacker(Map<String, String> leakedDatabase) {
+        this.leakedDatabase = leakedDatabase;
+        this.hackedData = new HashMap<>();
     }
 
     @Override
-    public Map<String, String> hack(Map<String, String> leakedDatabase) {
-        Map<String, String> hackedData = new HashMap<>();
-        Map<String, String> leakedDatabaseCopy = new HashMap<>(leakedDatabase);
-        while (!leakedDatabaseCopy.isEmpty()) {
-            for (int i = MIN_PASSWORD_LENGTH; i <= MAX_PASSWORD_LENGTH; i++) {
-
+    public Map<String, String> hack() {
+        while (!leakedDatabase.isEmpty()) {
+            for (int wordLength = MIN_PASSWORD_LENGTH; wordLength <= MAX_PASSWORD_LENGTH; wordLength++) {
+                generatePasswords(wordLength);
             }
         }
         return hackedData;
     }
 
-    public static <T> Iterable<List<T>> product(List<T>... lists) {
-        long total = 1;
-        int[] max = new int[lists.length];
-        for (int i = 0; i < lists.length; i++) {
-            max[i] = lists[i].size();
-        }
-        int[] initProduct = new int[lists.length];
-        Arrays.fill(initProduct, 1);
-        for (List<T> list : lists) {
-            total *= list.size();
-        }
+    private void generatePasswords(int wordLength) {
+        int[] index = new int[wordLength];
+        Arrays.fill(index, 0);
+        while (!leakedDatabase.isEmpty()) {
 
-        List<List<T>> result = new ArrayList<>();
-        int[] presentProduct = initProduct;
-        for (int index = 0; index < total; index++) {
-            if (index != 0) {
-                presentProduct = generateNextProduct(presentProduct, max);
+            StringBuilder word = new StringBuilder();
+            for (Integer integer : index) {
+                word.append(alfCharacters.get(integer));
             }
-            List<T> productList = new ArrayList<>();
-            for (int i = 0; i < presentProduct.length; i++) {
-                productList.add(lists[i].get(presentProduct[i] - 1));
-            }
-            result.add(productList);
-        }
 
-        return result;
+            String generatedPass = word.toString();
+            processGeneratedPassword(generatedPass);
+
+            for (int i = index.length - 1;  ; --i) {
+                if (i < 0) {
+                    return;
+                }
+                index[i]++;
+                if (index[i] == alfCharacters.size()) {
+                    index[i] = 0;
+                } else {
+                    break;
+                }
+            }
+
+        }
     }
 
-    public static int[] generateNextProduct(int[] curr, int[] max) {
-        int n = curr.length - 1;
-        curr[n]++;
-        for (int i = n; i > 0; i--) {
-            if (curr[i] > max[i]) {
-                curr[i] = 1;
-                curr[i - 1]++;
-            }
+    private void processGeneratedPassword(String generatedPassword) {
+        String md5Pass = DigestUtils.md5Hex(generatedPassword);
+        if (isPasswordInLeakedDatabase(md5Pass)) {
+            addToHackedData(leakedDatabase.get(md5Pass), generatedPassword);
+            leakedDatabase.remove(md5Pass);
         }
-        return curr;
     }
 
-    private boolean checkPass(String generatedPass, Map<String, String> leakedDatabase) {
-        String md5hex = DigestUtils.md5Hex(generatedPass);
-        return leakedDatabase.containsValue(md5hex);
+    private boolean isPasswordInLeakedDatabase(String md5hex) {
+        return leakedDatabase.containsKey(md5hex);
     }
 
-    public static void exampleProduct() {
-        for (var list : product(
-            Arrays.asList(ALF.split("")),
-            Arrays.asList(ALF.split("")),
-            Arrays.asList(ALF.split("")),
-            Arrays.asList(ALF.split("")),
-            Arrays.asList(ALF.split(""))
-        )) {
-           /* for (String s : list) {
-                System.out.print(s + " ");
-            }
-            System.out.println();*/
-        }
+    private void addToHackedData(String username, String password) {
+        hackedData.put(username, password);
     }
 
     public static void main(String[] args) { // 0f5b25cd58319cde0e6e33715b66db4c dima
-        //System.out.println(new DefaultDatabaseHacker().hack(Map.of("fwre", DigestUtils.md5Hex("dima"))));
-        exampleProduct();
+        Map<String, String> db = new HashMap<>();
+        db.put("0f5b25cd58319cde0e6e33715b66db4c", "Ya");
+        db.put("1b18e2ffe3a99ea9486ba69c02c72763", "hehe");
+        db.put("27183aacdcb689968f322032550ad33d", "fm");
+        DatabaseHacker hacker = new DefaultDatabaseHacker(db);
+        System.out.println(hacker.hack());
     }
 }
