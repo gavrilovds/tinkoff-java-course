@@ -14,6 +14,8 @@ import lombok.extern.log4j.Log4j2;
 public class RequestWorker implements Runnable {
 
     private static final int BUFFER_SIZE = 1024;
+    private static final String CLIENT = "Клиент: ";
+    private static final String SERVER = "Сервер: ";
 
     private static final Map<String, String> RESPONSES = Map.of(
         "личности", "Не переходи на личности там, где их нет",
@@ -44,9 +46,10 @@ public class RequestWorker implements Runnable {
                         int bytesRead = client.read(buffer);
                         if (bytesRead > 0) {
                             String request = new String(buffer.array(), StandardCharsets.UTF_8);
-                            System.out.println("Ваня: " + request);
+                            System.out.println(CLIENT + request);
                             ByteBuffer response =
-                                ByteBuffer.wrap(("Сервер: " + RESPONSES.get(request.trim())).getBytes(StandardCharsets.UTF_8));
+                                ByteBuffer.wrap((SERVER
+                                    + RESPONSES.get(request.trim())).getBytes(StandardCharsets.UTF_8));
                             while (response.hasRemaining()) {
                                 client.write(response);
                             }

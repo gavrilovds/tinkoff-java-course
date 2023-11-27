@@ -1,7 +1,6 @@
 package edu.hw8.task3;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -12,6 +11,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class ParallelDatabaseHacker extends AbstractDatabaseHacker {
+    private static final int WORDS_PER_THREAD = 3;
 
     private final ConcurrentMap<String, String> leakedDatabase;
     private final ConcurrentMap<String, String> hackedData;
@@ -29,7 +29,7 @@ public class ParallelDatabaseHacker extends AbstractDatabaseHacker {
     @SneakyThrows
     public Map<String, String> hack() {
         for (int wordLength = MIN_PASSWORD_LENGTH; wordLength <= MAX_PASSWORD_LENGTH; wordLength++) {
-            for (int i = 0; i < ALF.length(); i += 3) {
+            for (int i = 0; i < ALF.length(); i += WORDS_PER_THREAD) {
                 final int wordLengthCopy = wordLength;
                 final int startIndex = i;
                 executor.execute(() -> generatePasswords(wordLengthCopy, startIndex));
@@ -43,7 +43,7 @@ public class ParallelDatabaseHacker extends AbstractDatabaseHacker {
     private void generatePasswords(int wordLength, int startIndex) {
         int[] index = new int[wordLength];
         Arrays.fill(index, startIndex);
-        while (index[0] != (startIndex - 3) && !leakedDatabase.isEmpty()) {
+        while (index[0] != (startIndex - WORDS_PER_THREAD) && !leakedDatabase.isEmpty()) {
 
             StringBuilder word = new StringBuilder();
             for (Integer integer : index) {
