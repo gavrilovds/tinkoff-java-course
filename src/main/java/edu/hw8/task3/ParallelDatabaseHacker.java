@@ -55,9 +55,6 @@ public class ParallelDatabaseHacker extends AbstractDatabaseHacker {
 
             for (int i = index.length - 1; ; --i) {
                 if (i < 0) {
-                    System.out.println(
-                        Thread.currentThread().getName() + " : start index = " + startIndex + " " + Arrays.toString(
-                            index));
                     return;
                 }
                 index[i]++;
@@ -86,14 +83,5 @@ public class ParallelDatabaseHacker extends AbstractDatabaseHacker {
 
     private void addToHackedData(String username, String password) {
         hackedData.putIfAbsent(username, password);
-    }
-
-    public static void main(String[] args) { // 0f5b25cd58319cde0e6e33715b66db4c dima
-        Map<String, String> db = new HashMap<>();
-        db.put("0f5b25cd58319cde0e6e33715b66db4c", "Ya");
-        db.put("1b18e2ffe3a99ea9486ba69c02c72763", "hehe");
-        db.put("27183aacdcb689968f322032550ad33d", "fm");
-        DatabaseHacker hacker = new ParallelDatabaseHacker(db);
-        System.out.println(hacker.hack());
     }
 }

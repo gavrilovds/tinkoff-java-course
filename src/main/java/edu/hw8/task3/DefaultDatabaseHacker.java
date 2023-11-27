@@ -68,13 +68,4 @@ public class DefaultDatabaseHacker extends AbstractDatabaseHacker {
     private void addToHackedData(String username, String password) {
         hackedData.put(username, password);
     }
-
-    public static void main(String[] args) { // 0f5b25cd58319cde0e6e33715b66db4c dima
-        Map<String, String> db = new HashMap<>();
-        db.put("0f5b25cd58319cde0e6e33715b66db4c", "Ya");
-        db.put("1b18e2ffe3a99ea9486ba69c02c72763", "hehe");
-        db.put("27183aacdcb689968f322032550ad33d", "fm");
-        DatabaseHacker hacker = new DefaultDatabaseHacker(db);
-        System.out.println(hacker.hack());
-    }
 }
