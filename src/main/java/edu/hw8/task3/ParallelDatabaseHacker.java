@@ -11,8 +11,8 @@ import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class ParallelDatabaseHacker extends AbstractDatabaseHacker {
-    private static final int WORDS_PER_THREAD = 3;
 
+    private static final int WORDS_PER_THREAD = 3;
     private final ConcurrentMap<String, String> leakedDatabase;
     private final ConcurrentMap<String, String> hackedData;
     private final ExecutorService executor;

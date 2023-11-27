@@ -16,6 +16,7 @@ public class Client {
     private static final String HOST = "localhost";
     private static final List<String> CLIENT_MESSAGES = List.of("личности", "оскорбления", "глупый", "интеллект");
 
+    @SuppressWarnings("checkstyle:RegexpSinglelineJava")
     @SneakyThrows
     public void connect(String messageToSend) {
         InetSocketAddress hostAddress = new InetSocketAddress(HOST, PORT);

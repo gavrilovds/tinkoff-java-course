@@ -32,6 +32,7 @@ public class RequestWorker implements Runnable {
         this.semaphore = semaphore;
     }
 
+    @SuppressWarnings("checkstyle:RegexpSinglelineJava")
     @Override
     @SneakyThrows
     public void run() {
