@@ -38,7 +38,7 @@ public class DefaultDatabaseHacker extends AbstractDatabaseHacker {
             String generatedPass = word.toString();
             processGeneratedPassword(generatedPass);
 
-            for (int i = index.length - 1;  ; --i) {
+            for (int i = index.length - 1; ; --i) {
                 if (i < 0) {
                     return;
                 }

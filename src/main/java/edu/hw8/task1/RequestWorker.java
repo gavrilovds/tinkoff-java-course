@@ -48,9 +48,14 @@ public class RequestWorker implements Runnable {
                         if (bytesRead > 0) {
                             String request = new String(buffer.array(), StandardCharsets.UTF_8);
                             System.out.println(CLIENT + request);
+                            String responseMessage;
+                            responseMessage = RESPONSES.getOrDefault(
+                                request.trim(),
+                                "Нет ответа на данное сообщение :("
+                            );
                             ByteBuffer response =
                                 ByteBuffer.wrap((SERVER
-                                    + RESPONSES.get(request.trim())).getBytes(StandardCharsets.UTF_8));
+                                    + responseMessage).getBytes(StandardCharsets.UTF_8));
                             while (response.hasRemaining()) {
                                 client.write(response);
                             }

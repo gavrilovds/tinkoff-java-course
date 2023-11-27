@@ -14,20 +14,23 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class Server {
 
-    private static final int PORT = 8080;
-    private static final String HOST = "localhost";
     private static final int NUMBER_OF_THREADS = 8;
     private static final int MAX_CONNECTIONS = 3;
 
     private final ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     private final Semaphore semaphore = new Semaphore(MAX_CONNECTIONS, true);
+    private final InetSocketAddress address;
+
+    public Server(String host, int port) {
+        this.address = new InetSocketAddress(host, port);
+    }
 
     @SneakyThrows
     public void start() {
         try (Selector selector = Selector.open();
             ServerSocketChannel channel = ServerSocketChannel.open()) {
             channel.configureBlocking(false);
-            channel.socket().bind(new InetSocketAddress(HOST, PORT));
+            channel.socket().bind(address);
             channel.register(selector, SelectionKey.OP_ACCEPT);
             while (channel.isOpen()) {
                 selector.select();

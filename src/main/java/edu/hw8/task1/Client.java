@@ -11,15 +11,18 @@ import lombok.SneakyThrows;
 
 public class Client {
 
-    private static final int PORT = 8080;
     private static final int BUFFER_SIZE = 1024;
-    private static final String HOST = "localhost";
+
     private static final List<String> CLIENT_MESSAGES = List.of("личности", "оскорбления", "глупый", "интеллект");
+    private final InetSocketAddress hostAddress;
+
+    public Client(String host, int port) {
+        this.hostAddress = new InetSocketAddress(host, port);
+    }
 
     @SuppressWarnings("checkstyle:RegexpSinglelineJava")
     @SneakyThrows
     public void connect(String messageToSend) {
-        InetSocketAddress hostAddress = new InetSocketAddress(HOST, PORT);
         try (SocketChannel client = SocketChannel.open(hostAddress)) {
             ByteBuffer buffer = ByteBuffer.wrap(messageToSend.getBytes(StandardCharsets.UTF_8));
             while (buffer.hasRemaining()) {
