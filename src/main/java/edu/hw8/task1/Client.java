@@ -12,7 +12,6 @@ import lombok.SneakyThrows;
 public class Client {
 
     private static final int BUFFER_SIZE = 1024;
-
     private static final List<String> CLIENT_MESSAGES = List.of("личности", "оскорбления", "глупый", "интеллект");
     private final InetSocketAddress hostAddress;
 

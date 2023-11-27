@@ -16,7 +16,6 @@ public class Server {
 
     private static final int NUMBER_OF_THREADS = 8;
     private static final int MAX_CONNECTIONS = 3;
-
     private final ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     private final Semaphore semaphore = new Semaphore(MAX_CONNECTIONS, true);
     private final InetSocketAddress address;
