@@ -7,17 +7,10 @@ import java.util.Map;
 
 public class SynchronizedPersonDatabase implements PersonDatabase {
 
-    private final Map<String, List<Person>> nameCache;
-    private final Map<String, List<Person>> addressCache;
-    private final Map<String, List<Person>> phoneNumberCache;
-    private final Map<Integer, Person> personStorage;
-
-    public SynchronizedPersonDatabase() {
-        nameCache = new HashMap<>();
-        addressCache = new HashMap<>();
-        phoneNumberCache = new HashMap<>();
-        personStorage = new HashMap<>();
-    }
+    private final Map<String, List<Person>> nameCache = new HashMap<>();
+    private final Map<String, List<Person>> addressCache = new HashMap<>();
+    private final Map<String, List<Person>> phoneNumberCache = new HashMap<>();
+    private final Map<Integer, Person> personStorage = new HashMap<>();
 
     @Override
     public synchronized void add(Person person) {

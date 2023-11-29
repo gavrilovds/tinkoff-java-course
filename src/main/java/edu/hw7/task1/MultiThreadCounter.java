@@ -4,11 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MultiThreadCounter {
 
-    private final AtomicInteger counter;
-
-    public MultiThreadCounter() {
-        counter = new AtomicInteger();
-    }
+    private final AtomicInteger counter = new AtomicInteger();
 
     public void increment() {
         counter.incrementAndGet();

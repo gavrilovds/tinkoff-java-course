@@ -11,22 +11,22 @@ import lombok.SneakyThrows;
 public class ParallelMonteCarloApproximator extends AbstractMonteCarloApproximator {
 
     private static final int NUMBER_OF_THREADS = 8;
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     @Override
     @SneakyThrows
     public double getPI(long simulations) {
-        ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
         Future<Long>[] threadResults = new Future[NUMBER_OF_THREADS];
         CountDownLatch latch = new CountDownLatch(NUMBER_OF_THREADS);
         for (int i = 0; i < NUMBER_OF_THREADS; i++) {
-            threadResults[i] = executorService.submit(() -> {
+            threadResults[i] = EXECUTOR_SERVICE.submit(() -> {
                 long circleCount = getCircleCount(simulations);
                 latch.countDown();
                 return circleCount;
             });
         }
         double totalCircleCount = 0;
-        executorService.shutdown();
+        EXECUTOR_SERVICE.shutdown();
         latch.await();
         for (int i = 0; i < NUMBER_OF_THREADS; i++) {
             totalCircleCount += threadResults[i].get();
