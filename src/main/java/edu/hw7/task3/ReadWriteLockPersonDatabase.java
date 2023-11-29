@@ -1,6 +1,7 @@
 package edu.hw7.task3;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class ReadWriteLockPersonDatabase implements PersonDatabase {
     public List<Person> findByName(String name) {
         readWriteLock.readLock().lock();
         try {
-            return nameCache.get(name);
+            return nameCache.getOrDefault(name, Collections.emptyList());
         } finally {
             readWriteLock.readLock().unlock();
         }
@@ -55,7 +56,7 @@ public class ReadWriteLockPersonDatabase implements PersonDatabase {
     public List<Person> findByAddress(String address) {
         readWriteLock.readLock().lock();
         try {
-            return addressCache.get(address);
+            return addressCache.getOrDefault(address, Collections.emptyList());
         } finally {
             readWriteLock.readLock().unlock();
         }
@@ -65,7 +66,7 @@ public class ReadWriteLockPersonDatabase implements PersonDatabase {
     public List<Person> findByPhone(String phone) {
         readWriteLock.readLock().lock();
         try {
-            return phoneNumberCache.get(phone);
+            return phoneNumberCache.getOrDefault(phone, Collections.emptyList());
         } finally {
             readWriteLock.readLock().unlock();
         }

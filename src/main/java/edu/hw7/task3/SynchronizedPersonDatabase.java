@@ -1,6 +1,7 @@
 package edu.hw7.task3;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,16 +31,16 @@ public class SynchronizedPersonDatabase implements PersonDatabase {
 
     @Override
     public synchronized List<Person> findByName(String name) {
-        return nameCache.get(name);
+        return nameCache.getOrDefault(name, Collections.emptyList());
     }
 
     @Override
     public synchronized List<Person> findByAddress(String address) {
-        return addressCache.get(address);
+        return addressCache.getOrDefault(address, Collections.emptyList());
     }
 
     @Override
     public synchronized List<Person> findByPhone(String phone) {
-        return phoneNumberCache.get(phone);
+        return phoneNumberCache.getOrDefault(phone, Collections.emptyList());
     }
 }
