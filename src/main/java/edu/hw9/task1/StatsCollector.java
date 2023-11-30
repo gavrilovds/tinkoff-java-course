@@ -10,6 +10,7 @@ import lombok.SneakyThrows;
 
 public class StatsCollector {
 
+    private static final String DELIMITER = " : ";
     private final AtomicInteger metricsCounter = new AtomicInteger(0);
     private final ExecutorService executorService = Executors.newFixedThreadPool(5);
     @Getter
@@ -25,14 +26,17 @@ public class StatsCollector {
         });
     }
 
+    @SuppressWarnings("checkstyle:RegexpSinglelineJava")
     @SneakyThrows
     public void printStats() {
+        // Не знаю, правильное ли решение так сделать.
+        // Так как мы ведь не знаем, сколько потоков всего придёт для передачи данных
         while (metricsCounter.get() != 0) {
 
         }
         executorService.shutdown();
         for (var entry : stats.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue());
+            System.out.println(entry.getKey() + DELIMITER + entry.getValue());
         }
     }
 
