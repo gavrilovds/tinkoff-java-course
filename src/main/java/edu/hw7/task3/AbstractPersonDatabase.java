@@ -8,10 +8,10 @@ import java.util.Map;
 
 public class AbstractPersonDatabase implements PersonDatabase {
 
-    protected final Map<String, List<Person>> nameCache = new HashMap<>();
-    protected final Map<String, List<Person>> addressCache = new HashMap<>();
-    protected final Map<String, List<Person>> phoneNumberCache = new HashMap<>();
-    protected final Map<Integer, Person> personStorage = new HashMap<>();
+    private final Map<String, List<Person>> nameCache = new HashMap<>();
+    private final Map<String, List<Person>> addressCache = new HashMap<>();
+    private final Map<String, List<Person>> phoneNumberCache = new HashMap<>();
+    private final Map<Integer, Person> personStorage = new HashMap<>();
 
     @Override
     public void add(Person person) {
