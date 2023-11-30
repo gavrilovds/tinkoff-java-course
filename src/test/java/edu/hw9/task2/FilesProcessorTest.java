@@ -71,5 +71,4 @@ public class FilesProcessorTest {
         List<String> fileNames = actual.stream().map(el -> el.substring(el.lastIndexOf('/'))).toList();
         assertThat(fileNames).containsExactlyInAnyOrder("/1.txt");
     }
-
 }
