@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import lombok.NonNull;
 import lombok.SneakyThrows;
 
 public class Client {
@@ -21,7 +22,7 @@ public class Client {
 
     @SuppressWarnings("checkstyle:RegexpSinglelineJava")
     @SneakyThrows
-    public void connect(String messageToSend) {
+    public void connect(@NonNull String messageToSend) {
         try (SocketChannel client = SocketChannel.open(hostAddress)) {
             ByteBuffer buffer = ByteBuffer.wrap(messageToSend.getBytes(StandardCharsets.UTF_8));
             while (buffer.hasRemaining()) {

@@ -16,6 +16,7 @@ public class RequestWorker implements Runnable {
     private static final int BUFFER_SIZE = 1024;
     private static final String CLIENT = "Клиент: ";
     private static final String SERVER = "Сервер: ";
+    private static final String NO_RESPONSE_MESSAGE = "Нет ответа на данное сообщение :(";
     private static final Map<String, String> RESPONSES = Map.of(
         "личности", "Не переходи на личности там, где их нет",
         "оскорбления", "Если твои противники перешли на личные оскорбления, будь уверена — твоя победа не за горами",
@@ -30,7 +31,6 @@ public class RequestWorker implements Runnable {
         this.semaphore = semaphore;
     }
 
-    @SuppressWarnings("checkstyle:RegexpSinglelineJava")
     @Override
     @SneakyThrows
     public void run() {
@@ -41,29 +41,40 @@ public class RequestWorker implements Runnable {
                 selector.select();
                 for (SelectionKey key : selector.keys()) {
                     if (key.isReadable()) {
-                        ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
-                        int bytesRead = client.read(buffer);
-                        if (bytesRead > 0) {
-                            String request = new String(buffer.array(), StandardCharsets.UTF_8);
-                            System.out.println(CLIENT + request);
-                            String responseMessage;
-                            responseMessage = RESPONSES.getOrDefault(
-                                request.trim(),
-                                "Нет ответа на данное сообщение :("
-                            );
-                            ByteBuffer response =
-                                ByteBuffer.wrap((SERVER
-                                    + responseMessage).getBytes(StandardCharsets.UTF_8));
-                            while (response.hasRemaining()) {
-                                client.write(response);
-                            }
-                            buffer.flip();
-                            client.close();
-                        }
+                        processRequest();
+                        client.close();
                     }
                 }
             }
+        } finally {
             semaphore.release();
+        }
+    }
+
+    @SuppressWarnings("checkstyle:RegexpSinglelineJava")
+    @SneakyThrows
+    private void processRequest() {
+        ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
+        int bytesRead = client.read(buffer);
+        if (bytesRead > 0) {
+            String request = new String(buffer.array(), StandardCharsets.UTF_8);
+            System.out.println(CLIENT + request);
+            sendResponse(request);
+        }
+    }
+
+    @SneakyThrows
+    private void sendResponse(String request) {
+        String responseMessage;
+        responseMessage = RESPONSES.getOrDefault(
+            request.trim(),
+            NO_RESPONSE_MESSAGE
+        );
+        ByteBuffer response =
+            ByteBuffer.wrap((SERVER
+                + responseMessage).getBytes(StandardCharsets.UTF_8));
+        while (response.hasRemaining()) {
+            client.write(response);
         }
     }
 }
