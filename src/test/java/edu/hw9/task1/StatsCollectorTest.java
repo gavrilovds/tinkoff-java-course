@@ -58,15 +58,15 @@ public class StatsCollectorTest {
     @DisplayName("StatsCollector general test")
     @SneakyThrows
     public void statsCollector_shouldProcessAllSentMetrics(List<double[]> values, Map<String, Stat> expected) {
-        ExecutorService executorService = Executors.newFixedThreadPool(6);
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
         StatsCollector collector = new StatsCollector();
         for (int i = 0; i < 3; i++) {
             final int copy = i;
             executorService.submit(() -> collector.push(new Metric("Name " + copy, values.get(copy))));
         }
+        collector.printStats();
         executorService.shutdown();
         executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
-        collector.printStats();
         assertThat(collector.getStats()).containsExactlyInAnyOrderEntriesOf(expected);
     }
 }

@@ -15,6 +15,7 @@ public class ParallelDFSSolver extends AbstractSolver {
 
     private static final int LOCK_TIME = 60;
     private final ReentrantLock lock = new ReentrantLock();
+    private final ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
 
     @Override
     public List<Coordinates> solve(Maze maze, Coordinates start, Coordinates end) {
@@ -22,7 +23,6 @@ public class ParallelDFSSolver extends AbstractSolver {
             throw new IllegalArgumentException("Invalid coordinates");
         }
         initSolver(maze);
-        ForkJoinPool forkJoinPool = new ForkJoinPool();
         boolean result = forkJoinPool.invoke(new ParallelDFSTask(start, end));
         if (!result) {
             return Collections.emptyList();
