@@ -14,7 +14,7 @@ public final class FractalImage {
         Pixel[][] data = new Pixel[height][width];
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
-                data[i][j] = new Pixel(0, 0, 0, 0);
+                data[i][j] = new Pixel(0, 0, 0, 0, 0);
             }
         }
         return new FractalImage(data, height, width);

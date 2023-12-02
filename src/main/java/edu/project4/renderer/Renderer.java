@@ -13,6 +13,6 @@ public interface Renderer {
         List<Transformation> transformations,
         int samples,
         int iterPerSample,
-        long seed
+        int symmetry
     );
 }
