@@ -14,16 +14,6 @@ public abstract class AbstractRenderer implements Renderer {
         return new Point(xRot, yRot);
     }
 
-    protected double getNewXUsingCoefficients(AffineCoefficients coefficients, Point pw) {
-        return coefficients.a() * pw.x() + coefficients.b() * pw.y()
-            + coefficients.c();
-    }
-
-    protected double getNewYUsingCoefficients(AffineCoefficients coefficients, Point pw) {
-        return coefficients.d() * pw.x() + coefficients.e() * pw.y()
-            + coefficients.f();
-    }
-
     protected void setPixelColor(Pixel pixel, AffineCoefficients coefficients) {
         if (pixel.getHitCount() == 0) {
             pixel.setR(coefficients.color().getRed());
@@ -48,5 +38,15 @@ public abstract class AbstractRenderer implements Renderer {
         double x = getNewXUsingCoefficients(coefficients, pw);
         double y = getNewYUsingCoefficients(coefficients, pw);
         return new Point(x, y);
+    }
+
+    private double getNewXUsingCoefficients(AffineCoefficients coefficients, Point pw) {
+        return coefficients.a() * pw.x() + coefficients.b() * pw.y()
+            + coefficients.c();
+    }
+
+    private double getNewYUsingCoefficients(AffineCoefficients coefficients, Point pw) {
+        return coefficients.d() * pw.x() + coefficients.e() * pw.y()
+            + coefficients.f();
     }
 }

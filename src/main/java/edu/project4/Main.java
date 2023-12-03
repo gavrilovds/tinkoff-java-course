@@ -7,7 +7,9 @@ import edu.project4.model.ImageFormat;
 import edu.project4.model.Rect;
 import edu.project4.renderer.ParallelRenderer;
 import edu.project4.renderer.Renderer;
+import edu.project4.transformation.CylinderTransformation;
 import edu.project4.transformation.HandkerchiefTransformation;
+import edu.project4.transformation.SwirlTransformation;
 import edu.project4.util.ImageUtils;
 import java.nio.file.Path;
 import java.util.List;
@@ -24,7 +26,7 @@ public class Main {
         fractalImage = renderer.render(
             fractalImage,
             rect,
-            List.of(new HandkerchiefTransformation()),
+            List.of(new CylinderTransformation(), new SwirlTransformation()),
             10,
             100_000_00,
             11
