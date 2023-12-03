@@ -9,7 +9,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class StatsCollector {
 
     private static final String DELIMITER = " : ";
@@ -28,6 +30,10 @@ public class StatsCollector {
 
     @SneakyThrows
     public void push(Metric metric) {
+        if (executorService.isShutdown()) {
+            log.info("ExecutorService is shut downed and cant process new metrics");
+            return;
+        }
         metricsCounter.incrementAndGet();
         metricsToProcess.put(metric);
     }
@@ -35,8 +41,6 @@ public class StatsCollector {
     @SuppressWarnings("checkstyle:RegexpSinglelineJava")
     @SneakyThrows
     public void printStats() {
-        // Не знаю, правильное ли решение так сделать.
-        // Так как мы ведь не знаем, сколько потоков всего придёт для передачи данных
         executorService.shutdown();
         while (metricsCounter.get() != 0) {
             // ожидаем, пока все поступившие метрики обработаются

@@ -64,6 +64,7 @@ public class StatsCollectorTest {
             final int copy = i;
             executorService.submit(() -> collector.push(new Metric("Name " + copy, values.get(copy))));
         }
+        Thread.sleep(1);
         collector.printStats();
         executorService.shutdown();
         executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
