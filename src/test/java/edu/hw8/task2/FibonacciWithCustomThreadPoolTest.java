@@ -24,6 +24,7 @@ public class FibonacciWithCustomThreadPoolTest {
                 actual.add(Fib.getFib(cur));
             });
         }
+        Thread.sleep(2000);
         threadPool.close();
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
