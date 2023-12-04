@@ -11,14 +11,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 import lombok.SneakyThrows;
 
 public class ParallelRenderer extends AbstractRenderer {
 
     private static final int NUMBER_OF_THREADS = 10;
-    private static final int LOCK_TIME = 60;
-    private final ReentrantLock lock = new ReentrantLock();
     private final ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     @Override
@@ -53,7 +50,7 @@ public class ParallelRenderer extends AbstractRenderer {
         AffineCoefficients[] coefficientsArray
     ) {
         Point pw = world.getRandomPoint();
-        for (int step = START; step < iterPerSample / NUMBER_OF_THREADS; step++) {
+        for (int step = START; step < iterPerSample; step++) {
             int randomIndex = ThreadLocalRandom.current().nextInt(0, coefficientsArray.length);
             AffineCoefficients coefficients = coefficientsArray[randomIndex];
             pw = getPointAfterAffineTransformation(coefficients, pw);
@@ -68,21 +65,18 @@ public class ParallelRenderer extends AbstractRenderer {
                     if (!world.doesContainPoint(pwr)) {
                         continue;
                     }
-                    lock.tryLock(LOCK_TIME, TimeUnit.SECONDS);
-                    try {
-                        Pixel pixel =
-                            canvas.getPixel(
-                                (int)
-                                    ((pwr.x() - world.x()) * canvas.getWidth() / world.width()),
-                                (int) ((pwr.y() - world.y()) * canvas.getHeight() / world.height())
-                            );
-                        if (pixel == null) {
-                            continue;
-                        }
+                    Pixel pixel =
+                        canvas.getPixel(
+                            (int)
+                                ((pwr.x() - world.x()) * canvas.getWidth() / world.width()),
+                            (int) ((pwr.y() - world.y()) * canvas.getHeight() / world.height())
+                        );
+                    if (pixel == null) {
+                        continue;
+                    }
+                    synchronized (pixel) {
                         setPixelColor(pixel, coefficients);
                         pixel.setHitCount(pixel.getHitCount() + 1);
-                    } finally {
-                        lock.unlock();
                     }
                 }
             }
