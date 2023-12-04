@@ -31,8 +31,7 @@ public class StatsCollector {
     @SneakyThrows
     public void push(Metric metric) {
         if (executorService.isShutdown()) {
-            log.info("ExecutorService is shut downed and cant process new metrics");
-            return;
+            throw new IllegalStateException("ExecutorService is shut downed and cant process new metrics");
         }
         metricsCounter.incrementAndGet();
         metricsToProcess.put(metric);
