@@ -54,7 +54,7 @@ public class RandomObjectGenerator {
         return className.cast(constructor.newInstance(arguments));
     }
 
-    private <T> Object[] initArguments(Parameter[] parameters) {
+    private Object[] initArguments(Parameter[] parameters) {
         Object[] arguments = new Object[parameters.length];
         for (int i = 0; i < parameters.length; i++) {
             arguments[i] = GENERATORS.get(parameters[i].getType()).generate(parameters[i].getAnnotations());

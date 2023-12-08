@@ -12,10 +12,10 @@ public class IntFieldsGenerator implements FieldsGenerator {
         int min = Integer.MIN_VALUE;
         int max = Integer.MAX_VALUE;
         for (Annotation annotation : annotations) {
-            if (annotation instanceof Min) {
-                min = (int) ((Min) annotation).value();
-            } else if (annotation instanceof Max) {
-                max = (int) ((Max) annotation).value();
+            if (annotation instanceof Min minAnnotation) {
+                min = (int) minAnnotation.value();
+            } else if (annotation instanceof Max maxAnnotation) {
+                max = (int) maxAnnotation.value();
             }
         }
         return ThreadLocalRandom.current().nextInt(min, max);

@@ -12,10 +12,10 @@ public class FloatFieldsGenerator implements FieldsGenerator {
         float min = Float.MIN_VALUE;
         float max = Float.MAX_VALUE;
         for (Annotation annotation : annotations) {
-            if (annotation instanceof Min) {
-                min = ((Min) annotation).value();
-            } else if (annotation instanceof Max) {
-                max = ((Max) annotation).value();
+            if (annotation instanceof Min minAnnotation) {
+                min = minAnnotation.value();
+            } else if (annotation instanceof Max maxAnnotation) {
+                max = maxAnnotation.value();
             }
         }
         return ThreadLocalRandom.current().nextFloat(min, max);

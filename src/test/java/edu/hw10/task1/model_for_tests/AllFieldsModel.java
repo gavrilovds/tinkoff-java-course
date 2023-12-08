@@ -1,4 +1,4 @@
-package edu.hw10.model_for_tests;
+package edu.hw10.task1.model_for_tests;
 
 import edu.hw10.task1.annotation.Max;
 import edu.hw10.task1.annotation.Min;

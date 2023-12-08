@@ -12,10 +12,10 @@ public class ByteFieldsGenerator implements FieldsGenerator {
         byte min = Byte.MIN_VALUE;
         byte max = Byte.MAX_VALUE;
         for (Annotation annotation : annotations) {
-            if (annotation instanceof Min) {
-                min = (byte) ((Min) annotation).value();
-            } else if (annotation instanceof Max) {
-                max = (byte) ((Max) annotation).value();
+            if (annotation instanceof Min minAnnotation) {
+                min = (byte) minAnnotation.value();
+            } else if (annotation instanceof Max maxAnnotation) {
+                max = (byte) maxAnnotation.value();
             }
         }
         return (byte) ThreadLocalRandom.current().nextInt(min, max);

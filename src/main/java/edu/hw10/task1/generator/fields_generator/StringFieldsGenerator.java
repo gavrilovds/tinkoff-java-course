@@ -19,10 +19,10 @@ public class StringFieldsGenerator implements FieldsGenerator {
         for (Annotation annotation : annotations) {
             if (annotation instanceof NotNull) {
                 isNotNull = true;
-            } else if (annotation instanceof Min) {
-                minLength = (int) ((Min) annotation).value();
-            } else if (annotation instanceof Max) {
-                maxLength = (int) ((Max) annotation).value();
+            } else if (annotation instanceof Min minAnnotation) {
+                minLength = (int) minAnnotation.value();
+            } else if (annotation instanceof Max maxAnnotation) {
+                maxLength = (int) maxAnnotation.value();
             }
         }
         if (!isNotNull) {

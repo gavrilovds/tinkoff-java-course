@@ -1,9 +1,9 @@
-package edu.hw10;
+package edu.hw10.task1;
 
-import edu.hw10.model_for_tests.AllFieldsModel;
-import edu.hw10.model_for_tests.Student;
-import edu.hw10.model_for_tests.Teacher;
 import edu.hw10.task1.generator.RandomObjectGenerator;
+import edu.hw10.task1.model_for_tests.AllFieldsModel;
+import edu.hw10.task1.model_for_tests.Student;
+import edu.hw10.task1.model_for_tests.Teacher;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -12,10 +12,10 @@ public class ShortFieldsGenerator implements FieldsGenerator {
         short min = Short.MIN_VALUE;
         short max = Short.MAX_VALUE;
         for (Annotation annotation : annotations) {
-            if (annotation instanceof Min) {
-                min = (short) ((Min) annotation).value();
-            } else if (annotation instanceof Max) {
-                max = (short) ((Max) annotation).value();
+            if (annotation instanceof Min minAnnotation) {
+                min = (short) minAnnotation.value();
+            } else if (annotation instanceof Max maxAnnotation) {
+                max = (short) maxAnnotation.value();
             }
         }
         return (short) ThreadLocalRandom.current().nextInt(min, max);
