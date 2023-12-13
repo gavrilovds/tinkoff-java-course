@@ -3,7 +3,6 @@ package edu.hw10.task2;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.hw10.task2.annotation.Cache;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
@@ -35,21 +34,13 @@ public class CacheInvocationHandler implements InvocationHandler {
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) {
-        return processAnnotation(method, args);
-    }
-
     @SneakyThrows
-    private Object processAnnotation(Method method, Object[] args) {
-        Annotation[] annotations = method.getAnnotations();
-        for (Annotation annotation : annotations) {
-            if (annotation instanceof Cache cacheAnnotation) {
-                if (cacheAnnotation.persist()) {
-                    return processDiskCache(method, args);
-                } else {
-                    return processInMemoryCache(method, args);
-                }
+    public Object invoke(Object proxy, Method method, Object[] args) {
+        if (method.isAnnotationPresent(Cache.class)) {
+            if (method.getAnnotation(Cache.class).persist()) {
+                return processDiskCache(method, args);
             }
+            return processInMemoryCache(method, args);
         }
         return method.invoke(proxiedObject, args);
     }
