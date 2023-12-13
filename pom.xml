@@ -38,6 +38,7 @@
         <lombok.version>1.18.30</lombok.version>
         <apache.common.version>3.13.0</apache.common.version>
         <apache.commons.codec.version>1.4</apache.commons.codec.version>
+        <jmh.version>1.37</jmh.version>
 
 
         <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
@@ -121,6 +122,17 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>${apache.commons.codec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>${jmh.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>${jmh.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
