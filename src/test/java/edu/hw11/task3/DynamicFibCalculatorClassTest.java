@@ -8,5 +8,6 @@ public class DynamicFibCalculatorClassTest {
     @Test
     @DisplayName("creating dynamic fib calculator using byte buddy and asm")
     public void shouldCreateNewClassWhichCanCalculateFibNumbers() {
+
     }
 }
