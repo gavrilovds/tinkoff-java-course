@@ -38,6 +38,8 @@
         <lombok.version>1.18.30</lombok.version>
         <apache.common.version>3.13.0</apache.common.version>
         <apache.commons.codec.version>1.4</apache.commons.codec.version>
+        <bytebuddy.version>1.14.8</bytebuddy.version>
+        <asm.version>9.6</asm.version>
 
 
         <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
@@ -121,6 +123,21 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>${apache.commons.codec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>${asm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>${bytebuddy.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>${bytebuddy.version}</version>
         </dependency>
     </dependencies>
 
