@@ -29,6 +29,6 @@ public class StringFieldsGenerator implements FieldsGenerator {
             return null;
         }
         return minLength < maxLength ? RandomStringUtils.randomAlphabetic(minLength, maxLength)
-            : RandomStringUtils.randomAlphabetic(maxLength, maxLength);
+            : RandomStringUtils.randomAlphabetic(maxLength, minLength);
     }
 }
