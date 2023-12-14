@@ -58,7 +58,7 @@ public class MazeApplicationTest {
     @Test
     @DisplayName("#run invalid input test#3")
     public void run_shouldPrintCorrectDataWhenChooseSolverIsIncorrect() {
-        input.addAll(List.of(23, 23, 1, 3, 1, 1, 13, 13));
+        input.addAll(List.of(23, 23, 1, 4, 1, 1, 13, 13));
         Assertions.assertAll(
             () -> assertThatThrownBy(() -> application.run()).isInstanceOf(IllegalArgumentException.class),
             () -> assertThat(output).containsExactly(
