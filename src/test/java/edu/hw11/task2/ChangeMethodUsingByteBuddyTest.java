@@ -21,7 +21,8 @@ public class ChangeMethodUsingByteBuddyTest {
             .redefine(ArithmeticUtils.class)
             .method(ElementMatchers.named("sum")).intercept(MethodDelegation.to(ArithmeticUtilsDelegate.class))
             .make()
-            .load(ClassLoader.getSystemClassLoader(), ClassReloadingStrategy.fromInstalledAgent());
+            .load(ClassLoader.getSystemClassLoader(), ClassReloadingStrategy.fromInstalledAgent())
+            .getLoaded();
         int actual = ArithmeticUtils.sum(2, 3);
         assertThat(actual).isEqualTo(6);
     }
