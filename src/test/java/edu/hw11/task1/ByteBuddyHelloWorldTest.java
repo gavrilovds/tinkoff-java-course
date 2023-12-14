@@ -1,13 +1,12 @@
 package edu.hw11.task1;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import lombok.SneakyThrows;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.implementation.FixedValue;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ByteBuddyHelloWorldTest {
 
