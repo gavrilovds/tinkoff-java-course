@@ -81,14 +81,14 @@ public class ReflectionBenchmark {
     @Benchmark
     @SneakyThrows
     public void reflectionAccess(Blackhole bh) {
-        String name = (String) method.invoke(student);
+        Object name = method.invoke(student);
         bh.consume(name);
     }
 
     @Benchmark
     @SneakyThrows
     public void methodHandlesAccess(Blackhole bh) {
-        String name = (String) methodHandle.invoke(student);
+        Object name = methodHandle.invoke(student);
         bh.consume(name);
     }
 
