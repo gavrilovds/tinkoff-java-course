@@ -11,6 +11,7 @@ import edu.project2.renderer.Renderer;
 import edu.project2.renderer.UnicodeRenderer;
 import edu.project2.solver.BreadthFirstSearchSolver;
 import edu.project2.solver.DepthFirstSearchSolver;
+import edu.project2.solver.ParallelDFSSolver;
 import edu.project2.solver.Solver;
 import edu.project2.util.MessagesUtils;
 import java.util.List;
@@ -63,12 +64,14 @@ public class MazeApplication {
         };
     }
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     private Solver chooseSolver() {
         printer.print(MessagesUtils.CHOOSE_SOLVER_MESSAGE);
         int number = reader.readInt();
         return switch (number) {
             case 1 -> new BreadthFirstSearchSolver();
             case 2 -> new DepthFirstSearchSolver();
+            case 3 -> new ParallelDFSSolver();
             default -> throw new IllegalArgumentException("Wrong solver input");
         };
     }

@@ -26,6 +26,7 @@ public final class MessagesUtils {
             Choose the algorithm that you like:
             1 - Breadth first search solver
             2 - Depth first search solver
+            3 - Parallel depth first search solver
             """;
     public static final String INPUT_COORDINATES_MESSAGE =
         """
