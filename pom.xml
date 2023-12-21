@@ -38,6 +38,8 @@
         <lombok.version>1.18.30</lombok.version>
         <apache.common.version>3.13.0</apache.common.version>
         <apache.commons.codec.version>1.4</apache.commons.codec.version>
+        <bytebuddy.version>1.14.8</bytebuddy.version>
+        <asm.version>9.6</asm.version>
         <google.code.gson.version>2.10.1</google.code.gson.version>
 
 
@@ -124,6 +126,16 @@
             <version>${apache.commons.codec.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>${asm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>${bytebuddy.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${google.code.gson.version}</version>
@@ -186,6 +198,13 @@
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jacoco-maven-plugin.version}</version>
+                    <configuration>
+                        <excludes>
+                          <!--UnsupportedOperationException with a message 'class redefinition failed: attempted to delete a method'.
+                            The jacoco plugin adds a method named '$jacocoInit()' to each class, but it seems byte-buddy ignores this generated method.-->
+                            <exclude>*ArithmeticUtils*</exclude>
+                        </excludes>
+                    </configuration>
                     <executions>
                         <execution>
                             <goals>
